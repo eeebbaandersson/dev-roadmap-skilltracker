@@ -5,6 +5,7 @@ import org.example.devroadmapskilltracker.skill.SkillStatus;
 import java.time.LocalDate;
 
 public record SkillDTO(
+        Long id,
         String title,
         SkillStatus status,
         String description,

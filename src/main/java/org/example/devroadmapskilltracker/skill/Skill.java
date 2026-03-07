@@ -18,7 +18,7 @@ public class Skill {
     @NotBlank(message = "Title is required")
     private String title;
 
-    @NotNull(message = "Title is required")
+    @NotNull(message = "Status is required")
     @Enumerated(EnumType.STRING) // Sparar texten (ex. "BACKLOG") istället för en siffra i databasen
     private SkillStatus status;
 
