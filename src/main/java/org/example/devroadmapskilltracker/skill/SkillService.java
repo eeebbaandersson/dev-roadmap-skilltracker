@@ -32,6 +32,7 @@ public class SkillService {
 
     }
 
+    // Todo: Addera validering av datumlogik?
     public SkillDTO createSkill(CreateSkillDTO dto) {
 
         // Kontroll --> Finns titeln redan?
