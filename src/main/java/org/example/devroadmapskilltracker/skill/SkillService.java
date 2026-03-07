@@ -7,6 +7,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+
 @Service
 public class SkillService {
 
@@ -31,13 +33,16 @@ public class SkillService {
                 .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_MESSAGE + id));
 
     }
-
-    // Todo: Addera validering av datumlogik?
+    
     public SkillDTO createSkill(CreateSkillDTO dto) {
 
         // Kontroll --> Finns titeln redan?
         if (skillRepository.existsByTitle(dto.title())) {
             throw new IllegalArgumentException("A skill with title: " + dto.title() + " already exists.");
+        }
+
+        if (dto.dateAdded().isAfter(LocalDate.now())){
+            throw new IllegalArgumentException("Date cannot be in the future.");
         }
 
         // Använder mappern för att skapa entitet från DTO:n
@@ -52,14 +57,16 @@ public class SkillService {
     }
 
 
-    public SkillDTO updateSkill(UpdateSkillDTO dto) {
+    public SkillDTO updateSkill(Long id, UpdateSkillDTO dto) {
 
         // Hämta befintlig skill eller kasta exception om den saknas
-        Skill existingSkill = skillRepository.findById(dto.id())
+        Skill existingSkill = skillRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_MESSAGE + dto.id()));
 
        // Uppdatera fältet på den befintliga entiteten med data från DTO:n
         skillMapper.updateEntityFromDTO(dto, existingSkill);
+
+        existingSkill.setId(id);
 
         // Sparar ändringarna
         Skill updatedSkill = skillRepository.save(existingSkill);
