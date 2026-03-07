@@ -43,6 +43,4 @@ public class SkillMapper {
         skill.setTag(dto.tag());
     }
 
-
-
 }
