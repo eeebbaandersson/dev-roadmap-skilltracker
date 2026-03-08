@@ -6,6 +6,8 @@ import org.example.devroadmapskilltracker.skill.dto.UpdateSkillDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
@@ -57,6 +59,30 @@ class SkillServiceIntegrationTest {
         assertThatThrownBy(() -> skillService.createSkill(dto))
                 .isInstanceOf(IllegalArgumentException.class)
                         .hasMessageContaining("A skill with title: " +dto.title() + " already exists");
+    }
+
+    @Test
+    void shouldReturnFilteredSkills_WhenSearchingByTitleAndTag() {
+        // Arrange - Skapa flera skills
+        skillService.createSkill(new CreateSkillDTO("Java Spring", SkillStatus.BACKLOG, "...", "https://test.io", LocalDate.now(), "Backend"));
+        skillService.createSkill(new CreateSkillDTO("React Frontend", SkillStatus.BACKLOG, "...", "https://test.io", LocalDate.now(), "Frontend"));
+        skillService.createSkill(new CreateSkillDTO("Java Hibernate", SkillStatus.BACKLOG, "...", "https://test.io", LocalDate.now(), "Database"));
+
+        // Act 1: Sök på bara titel (Java)
+        Page<SkillDTO> titelSearch = skillService.getSkills("Java", null, Pageable.unpaged());
+
+        // Act 2: Sök på bara tagg (Frontend)
+        Page<SkillDTO> tagSearch = skillService.getSkills(null, "Frontend", Pageable.unpaged());
+
+        // Act 3: Sök på något som inte finns (Phyton)
+        Page<SkillDTO> titleSearch = skillService.getSkills("Phyton", null, Pageable.unpaged());
+
+        // Assert
+        assertThat(titelSearch.getContent()).hasSize(2);
+        assertThat(tagSearch.getContent()).hasSize(1);
+        assertThat(titleSearch.getContent()).isEmpty();
+
+
     }
 
     @Test

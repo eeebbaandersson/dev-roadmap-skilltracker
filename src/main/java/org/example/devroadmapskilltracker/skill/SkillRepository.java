@@ -22,4 +22,6 @@ public interface SkillRepository extends JpaRepository<Skill, Long> {
     // Specifik tagg-sökning -> För framtida behov?
     Page<Skill> findByTagContainingIgnoreCase(String tag,Pageable pageable);
 
+    Page<Skill> findByTitleContainingIgnoreCase(String title, Pageable pageable);
+
 }

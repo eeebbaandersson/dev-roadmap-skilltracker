@@ -22,18 +22,32 @@ public class SkillService {
         this.skillMapper = skillMapper;
     }
 
-    public Page<SkillDTO> getAllSkills(Pageable pageable) {
-        return skillRepository.findAll(pageable)
-                .map(skillMapper::toDTO);
-    }
-
     public SkillDTO getSkillById(Long id) {
         return skillRepository.findById(id)
                 .map(skillMapper::toDTO)
                 .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_MESSAGE + id));
 
     }
-    
+
+    public Page<SkillDTO> getSkills(String title, String tag, Pageable pageable) {
+        Page<Skill> result;
+
+        // Om både title och tag saknas, hämta allt
+        if ((title == null || title.isBlank()) && (tag == null || tag.isBlank())) {
+            result = skillRepository.findAll(pageable);
+
+            // Finns titel men tagg saknas --> Utför titel-sökning
+        } else if (tag == null || tag.isBlank()) {
+            result = skillRepository.findByTitleContainingIgnoreCase(title, pageable);
+
+        } else {
+            result = skillRepository.findByTitleContainingIgnoreCaseOrTagIgnoreCase(title, tag, pageable);
+        }
+
+        // Mappa allt till DTO och returnera
+        return result.map(skillMapper::toDTO);
+    }
+
     public SkillDTO createSkill(CreateSkillDTO dto) {
 
         // Kontroll --> Finns titeln redan?
