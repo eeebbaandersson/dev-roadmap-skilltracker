@@ -69,18 +69,18 @@ class SkillServiceIntegrationTest {
         skillService.createSkill(new CreateSkillDTO("Java Hibernate", SkillStatus.BACKLOG, "...", "https://test.io", LocalDate.now(), "Database"));
 
         // Act 1: Sök på bara titel (Java)
-        Page<SkillDTO> titelSearch = skillService.getSkills("Java", null, Pageable.unpaged());
+        Page<SkillDTO> titleSearch = skillService.getSkills("Java", null, Pageable.unpaged());
 
         // Act 2: Sök på bara tagg (Frontend)
         Page<SkillDTO> tagSearch = skillService.getSkills(null, "Frontend", Pageable.unpaged());
 
         // Act 3: Sök på något som inte finns (Phyton)
-        Page<SkillDTO> titleSearch = skillService.getSkills("Phyton", null, Pageable.unpaged());
+        Page<SkillDTO> titleSearch2 = skillService.getSkills("Phyton", null, Pageable.unpaged());
 
         // Assert
-        assertThat(titelSearch.getContent()).hasSize(2);
+        assertThat(titleSearch.getContent()).hasSize(2);
         assertThat(tagSearch.getContent()).hasSize(1);
-        assertThat(titleSearch.getContent()).isEmpty();
+        assertThat(titleSearch2.getContent()).isEmpty();
 
 
     }
@@ -187,6 +187,5 @@ class SkillServiceIntegrationTest {
                 .isInstanceOf(ResourceNotFoundException.class)
                 .hasMessageContaining("Error: Could not find skill with id: " + id);
     }
-
 
 }

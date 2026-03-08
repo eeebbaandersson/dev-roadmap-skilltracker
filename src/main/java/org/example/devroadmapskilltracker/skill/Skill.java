@@ -38,6 +38,14 @@ public class Skill {
 
     public Skill() {}
 
+    // Todo: Addera saknade attributer
+    public Skill(String title, String description, LocalDate dateAdded, String tag, SkillStatus status) {
+        this.title = title;
+        this.description = description;
+        this.dateAdded = dateAdded;
+        this.tag = tag;
+        this.status = status;
+    }
 
     public Long getId() {
         return id;

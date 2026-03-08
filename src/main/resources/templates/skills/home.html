@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>DevRoadmap | Home</title>
+    <link rel="stylesheet" th:href="@{/css/home.css}">
+</head>
+<body>
+
+<header>
+    <h1>🚀 💻 The Dev RoadMap</h1>
+    <p class="tagline">A visual skill tracker to document and deepen knowledge as a developer.</p>
+
+    <form th:action="@{/skills}" method="get" class="search-input">
+        <input type="text" name="title" th:value="${titleFilter}" placeholder="Filter skills...">
+    </form>
+</header>
+
+<main class="roadmap-container">
+
+    <section class="status-zone">
+        <h2>Backlog</h2>
+        <div class="bento-grid">
+            <article class="skill-card" th:each="skill : ${skills}" th:if="${skill.status.name() == 'BACKLOG'}">
+                <h3 th:text="${skill.title}">Title</h3>
+                <p th:text="${skill.description}">Description</p>
+                <span class="tag" th:text="${skill.tag}">Tag</span>
+            </article>
+        </div>
+    </section>
+
+    <section class="status-zone">
+        <h2>In Progress</h2>
+        <div class="bento-grid">
+            <article class="skill-card" th:each="skill : ${skills}" th:if="${skill.status.name() == 'IN_PROGRESS'}">
+                <h3 th:text="${skill.title}">Title</h3>
+                <p th:text="${skill.description}">Description</p>
+                <span class="tag" th:text="${skill.tag}">Tag</span>
+            </article>
+        </div>
+    </section>
+
+    <section class="status-zone">
+        <h2>Mastered</h2>
+        <div class="bento-grid">
+            <article class="skill-card" th:each="skill : ${skills}" th:if="${skill.status.name() == 'MASTERED'}">
+                <h3 th:text="${skill.title}">Title</h3>
+                <p th:text="${skill.description}">Description</p>
+                <span class="tag" th:text="${skill.tag}">Tag</span>
+            </article>
+        </div>
+    </section>
+
+</main>
+</body>
+</html>
