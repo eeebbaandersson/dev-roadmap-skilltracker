@@ -5,6 +5,7 @@ body {
     font-family: sans-serif;
     margin: 0;
     padding: 3rem;
+    box-sizing: border-box;
 }
 
 header {
@@ -34,6 +35,16 @@ header h1 {
     line-height: 1.6;
 }
 
+.action-wrapper {
+    display: flex;
+    align-items: stretch;
+    gap: 1rem; /* Avstånd mellan sökfält och knapp */
+    width: 100%;
+    max-width: 650px; /* Lite bredare för att rymma båda */
+    justify-content: center;
+}
+
+
 /* Containern som håller sökfältet */
 .search-input {
     background: rgba(255, 255, 255, 0.05);
@@ -41,11 +52,13 @@ header h1 {
     border-radius: 12px;
     padding: 12px 20px;
     width: 100%;
-    max-width: 450px;
+    max-width: 500px;
     display: flex;
     align-items: center;
     transition: all 0.3s ease;
-    margin-bottom: 2rem;
+    margin-bottom: 0;
+    flex-grow: 1;
+
 }
 
 .search-input input {
@@ -59,6 +72,30 @@ header h1 {
 
 .search-input input::placeholder {
     color: rgba(255, 255, 255, 0.3);
+}
+
+.btn-add-skill{
+    margin-top: 0;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.6);
+    padding: 0 24px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-size: 0.95rem;
+    white-space: nowrap;
+    transition: all 0.3s ease;
+}
+
+.btn-add-skill:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: #fff;
+
 }
 
 
@@ -101,14 +138,16 @@ header h1 {
 }
 
 .skill-card:hover {
-    border-color: #444;
-    background-color: #1a1a1a;
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: #fff;
 
 }
 
 .skill-card:hover .tag {
-    border-color: #444;
-    background-color: #1a1a1a;
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: #fff;
     opacity: 0.5;
 
 }
@@ -125,6 +164,15 @@ header h1 {
     font-size: 0.9rem;
     line-height: 1.5;
     margin-bottom: 1.5rem;
+}
+
+.default-message {
+    color: rgba(255, 255, 255, 0.3); /* Väldigt dämpad vit/grå */
+    font-style: italic;
+    font-size: 0.9rem;
+    text-align: center;
+    padding: 2rem;
+    margin-top: 1rem;
 }
 
 .tag {

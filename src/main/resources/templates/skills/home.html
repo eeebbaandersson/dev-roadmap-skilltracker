@@ -9,11 +9,19 @@
 
 <header>
     <h1>🚀 💻 The Dev RoadMap</h1>
-    <p class="tagline">A visual skill tracker to document and deepen knowledge as a developer.</p>
+    <p class="tagline">A visual skill tracker to organize and improve knowledge as a developer.</p>
 
-    <form th:action="@{/skills}" method="get" class="search-input">
-        <input type="text" name="title" th:value="${titleFilter}" placeholder="Filter skills...">
-    </form>
+    <div class="action-wrapper">
+        <form th:action="@{/skills}" method="get" class="search-input">
+            <input type="text" name="title" th:value="${titleFilter}" placeholder="Filter skills by title or tag...">
+        </form>
+
+        <a th:href="@{/skills/new}" class="btn-add-skill">
+            <span>+</span> Add New Skill
+        </a>
+    </div>
+
+
 </header>
 
 <main class="roadmap-container">
@@ -26,6 +34,9 @@
                 <p th:text="${skill.description}">Description</p>
                 <span class="tag" th:text="${skill.tag}">Tag</span>
             </article>
+            <p th:if="${#lists.isEmpty(skills.?[status.name() == 'BACKLOG'])}" class="default-message">
+                No skills in queue yet. What do you want to explore next?
+            </p>
         </div>
     </section>
 
@@ -37,6 +48,9 @@
                 <p th:text="${skill.description}">Description</p>
                 <span class="tag" th:text="${skill.tag}">Tag</span>
             </article>
+            <p th:if="${#lists.isEmpty(skills.?[status.name() == 'IN_PROGRESS'])}" class="default-message">
+                Currently not focusing on any specific skill. Time to pick one?
+            </p>
         </div>
     </section>
 
@@ -48,6 +62,9 @@
                 <p th:text="${skill.description}">Description</p>
                 <span class="tag" th:text="${skill.tag}">Tag</span>
             </article>
+            <p th:if="${#lists.isEmpty(skills.?[status.name() == 'MASTERED'])}" class="default-message">
+                The journey has begun. Mastered skills will appear here.
+            </p>
         </div>
     </section>
 
