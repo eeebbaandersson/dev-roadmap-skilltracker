@@ -3,6 +3,7 @@ package org.example.devroadmapskilltracker.skill;
 import org.example.devroadmapskilltracker.skill.dto.CreateSkillDTO;
 import org.example.devroadmapskilltracker.skill.dto.SkillDTO;
 import org.example.devroadmapskilltracker.skill.dto.UpdateSkillDTO;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,6 +22,14 @@ class SkillServiceIntegrationTest {
 
     @Autowired
     private SkillService skillService;
+    @Autowired
+    private SkillRepository skillRepository;
+
+    // Rensar all data från DataInitializer innan testen börjar --> Löser tidigare problem med för många träffar i Title/tag-search
+    @BeforeEach
+    void setUp() {
+        skillRepository.deleteAll();
+    }
 
     @Test
     void shouldSaveAndRetrieveSkill() {
@@ -78,6 +87,7 @@ class SkillServiceIntegrationTest {
         Page<SkillDTO> titleSearch2 = skillService.getSkills("Phyton", null, Pageable.unpaged());
 
         // Assert
+        titleSearch.getContent().forEach(s -> System.out.println("Debugg: Found skill " + s.title()));
         assertThat(titleSearch.getContent()).hasSize(2);
         assertThat(tagSearch.getContent()).hasSize(1);
         assertThat(titleSearch2.getContent()).isEmpty();
