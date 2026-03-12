@@ -17,10 +17,9 @@
         </form>
 
         <a th:href="@{/skills/new}" class="btn-add-skill">
-            <span>+</span> Add New Skill
+            <span>+</span>Add New Skill
         </a>
     </div>
-
 
 </header>
 
@@ -33,6 +32,7 @@
                 <h3 th:text="${skill.title}">Title</h3>
                 <p th:text="${skill.description}">Description</p>
                 <span class="tag" th:text="${skill.tag}">Tag</span>
+                <span th:text="${skill.dateAdded}">date</span>
             </article>
             <p th:if="${#lists.isEmpty(skills.?[status.name() == 'BACKLOG'])}" class="default-message">
                 No skills in queue yet. What do you want to explore next?

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>DevRoadmap | Add New Skill</title>
+    <link rel="stylesheet" th:href="@{/css/create.css}">
+</head>
+<body>
+
+<div class="container">
+    <main class="form-card">
+        <header class="form-header">
+            <h1>Add New Skill</h1>
+            <p>Add tagline later...</p>
+        </header>
+
+        <form th:action="@{/skills}" th:object="${skill}" method="post">
+
+            <div class="form-row">
+                <label for="title">Name</label>
+                <div class="input-container">
+                    <input type="text" id="title" th:field="*{title}" placeholder="e.g. Java Spring Boot"
+                           th:classappend="${#fields.hasErrors('title')} ? 'is-invalid' : ''">
+                    <span class="error-text" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <label for="source">Resources</label>
+                <div class="input-container">
+                    <input type="url" id="source" th:field="*{source}" placeholder="https://...">
+                    <span class="error-text" th:if="${#fields.hasErrors('source')}" th:errors="*{source}"></span>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <label for="status">Status</label>
+                <div class="input-container">
+                    <select id="status" th:field="*{status}">
+                        <option th:each="statusOpt : ${T(org.example.devroadmapskilltracker.skill.SkillStatus).values()}"
+                                th:value="${statusOpt}" th:text="${statusOpt}"></option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <label for="description">Description</label>
+                <div class="input-container">
+                    <textarea id="description" th:field="*{description}" rows="3" placeholder="Add your description here..."></textarea>
+                    <span class="error-text" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></span>
+                </div>
+            </div>
+
+                <div class="form-row">
+                    <label for="tag">Tags</label>
+                    <div class="input-container">
+                        <input type="text" id="tag" th:field="*{tag}" placeholder="e.g. Backend">
+                        <span class="error-text" th:if="${#fields.hasErrors('tag')}" th:errors="*{tag}"></span>
+                    </div>
+                </div>
+
+            <input type="hidden" th:field="*{dateAdded}">
+
+            <div class="form-actions">
+                <a th:href="@{/skills}" class="btn-secondary">Cancel</a>
+                <button type="submit" class="btn-primary">Save Skill</button>
+            </div>
+
+        </form>
+    </main>
+</div>
+
+
+</body>
+</html>

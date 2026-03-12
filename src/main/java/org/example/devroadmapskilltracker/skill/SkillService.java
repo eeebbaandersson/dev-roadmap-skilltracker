@@ -6,10 +6,12 @@ import org.example.devroadmapskilltracker.skill.dto.UpdateSkillDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
+import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 
 @Service
+// @Transactional(readOnly = true)
+
 public class SkillService {
 
     private static  final String NOT_FOUND_MESSAGE = "Error: Could not find skill with id: ";
@@ -36,7 +38,7 @@ public class SkillService {
         if ((title == null || title.isBlank()) && (tag == null || tag.isBlank())) {
             result = skillRepository.findAll(pageable);
 
-            // Finns titel men tagg saknas --> Utför titel-sökning
+            // Finns title men tag saknas --> Utför titel-sökning
         } else if (tag == null || tag.isBlank()) {
             result = skillRepository.findByTitleContainingIgnoreCase(title, pageable);
 

@@ -58,7 +58,6 @@ header h1 {
     transition: all 0.3s ease;
     margin-bottom: 0;
     flex-grow: 1;
-
 }
 
 .search-input input {
@@ -141,6 +140,7 @@ header h1 {
     background: rgba(255, 255, 255, 0.05);
     border-color: rgba(255, 255, 255, 0.2);
     color: #fff;
+    transform: translateY(-2px);
 
 }
 
@@ -151,7 +151,6 @@ header h1 {
     opacity: 0.5;
 
 }
-
 
 .skill-card h3 {
     margin: 0 0 0.5rem 0;
