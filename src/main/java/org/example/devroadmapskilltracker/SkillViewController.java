@@ -5,6 +5,7 @@ import org.example.devroadmapskilltracker.skill.SkillService;
 import org.example.devroadmapskilltracker.skill.SkillStatus;
 import org.example.devroadmapskilltracker.skill.dto.CreateSkillDTO;
 import org.example.devroadmapskilltracker.skill.dto.SkillDTO;
+import org.example.devroadmapskilltracker.skill.dto.UpdateSkillDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -74,7 +75,7 @@ public class SkillViewController {
             return "skills/create";
         }
 
-        // Om ingen krock uppstått gå vidare
+        // Anropa service för att skapa ny skill
         try {
             skillService.createSkill(dto);
         } catch (IllegalArgumentException e) {
@@ -82,8 +83,42 @@ public class SkillViewController {
             return "skills/create";
         }
 
+        // Går allt igenom skicka tillbaka användaren till home-sidan
         return "redirect:/skills";
     }
 
+    @GetMapping("/update/{id}")
+    public String showUpdateForm(@PathVariable Long id, Model model) {
+        // Hämta befintlig data för att fylla i formuläret
+        SkillDTO skill = skillService.getSkillById(id);
+        model.addAttribute("skill", skill);
+        return "skills/update";
+
+    }
+
+    @PostMapping("/{id}")
+    public String updateSkill(@PathVariable Long id,
+                              @Valid @ModelAttribute("skill")UpdateSkillDTO dto,
+                              BindingResult bindingResult, Model model){
+
+        // Vid misslyckad validering
+        if (bindingResult.hasErrors()) {
+            return "skills/update";
+        }
+
+        try {
+            // Anropa service för att uppdatera
+            skillService.updateSkill(id, dto);
+        } catch (IllegalArgumentException e) {
+            bindingResult.rejectValue("title", "error.title", e.getMessage());
+            return "skills/update";
+        }
+
+        // Går allt igenom skicka tillbaka användaren till home-sidan
+        return "redirect:/skills";
+
+
+
+    }
 
 }

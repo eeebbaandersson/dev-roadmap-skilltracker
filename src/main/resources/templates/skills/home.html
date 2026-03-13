@@ -28,12 +28,17 @@
     <section class="status-zone">
         <h2>Backlog</h2>
         <div class="bento-grid">
-            <article class="skill-card" th:each="skill : ${skills}" th:if="${skill.status.name() == 'BACKLOG'}">
+            <a th:href="@{/skills/update/{id}(id=${skill.id})}" class="skill-card-link"
+               th:each="skill : ${skills}" th:if="${skill.status.name() == 'BACKLOG'}">
+            <article class="skill-card">
+                <div class="title-tag-wrapper">
                 <h3 th:text="${skill.title}">Title</h3>
-                <p th:text="${skill.description}">Description</p>
                 <span class="tag" th:text="${skill.tag}">Tag</span>
-                <span th:text="${skill.dateAdded}">date</span>
+                </div>
+                <p th:text="${skill.description}">Description</p>
+                <span class="date" th:text="${skill.dateAdded}">date</span>
             </article>
+            </a>
             <p th:if="${#lists.isEmpty(skills.?[status.name() == 'BACKLOG'])}" class="default-message">
                 No skills in queue yet. What do you want to explore next?
             </p>
@@ -43,11 +48,17 @@
     <section class="status-zone">
         <h2>In Progress</h2>
         <div class="bento-grid">
-            <article class="skill-card" th:each="skill : ${skills}" th:if="${skill.status.name() == 'IN_PROGRESS'}">
+            <a th:href="@{/skills/update/{id}(id=${skill.id})}" class="skill-card-link"
+               th:each="skill : ${skills}" th:if="${skill.status.name() == 'IN_PROGRESS'}">
+            <article class="skill-card">
+                <div class="title-tag-wrapper">
                 <h3 th:text="${skill.title}">Title</h3>
+                    <span class="tag" th:text="${skill.tag}">Tag</span>
+                </div>
                 <p th:text="${skill.description}">Description</p>
-                <span class="tag" th:text="${skill.tag}">Tag</span>
+                <span class="date" th:text="${skill.dateAdded}">date</span>
             </article>
+            </a>
             <p th:if="${#lists.isEmpty(skills.?[status.name() == 'IN_PROGRESS'])}" class="default-message">
                 Currently not focusing on any specific skill. Time to pick one?
             </p>
@@ -57,11 +68,18 @@
     <section class="status-zone">
         <h2>Mastered</h2>
         <div class="bento-grid">
-            <article class="skill-card" th:each="skill : ${skills}" th:if="${skill.status.name() == 'MASTERED'}">
+            <a th:href="@{/skills/update/{id}(id=${skill.id})}" class="skill-card-link"
+               th:each="skill : ${skills}" th:if="${skill.status.name() == 'MASTERED'}">
+            <article class="skill-card">
+                <div class="title-tag-wrapper">
                 <h3 th:text="${skill.title}">Title</h3>
+                    <span class="tag" th:text="${skill.tag}">Tag</span>
+                </div>
                 <p th:text="${skill.description}">Description</p>
-                <span class="tag" th:text="${skill.tag}">Tag</span>
+                <span class="date" th:text="${skill.dateAdded}">date</span>
+
             </article>
+            </a>
             <p th:if="${#lists.isEmpty(skills.?[status.name() == 'MASTERED'])}" class="default-message">
                 The journey has begun. Mastered skills will appear here.
             </p>

@@ -10,11 +10,11 @@
 <div class="container">
     <main class="form-card">
         <header class="form-header">
-            <h1>Add New Skill</h1>
-            <p>What topic would you like to explore next?</p>
+            <h1>Update Skill</h1>
+            <p>Add new tagline text...</p>
         </header>
 
-        <form th:action="@{/skills}" th:object="${skill}" method="post">
+        <form th:action="@{/skills/{id}(id=${skill.id})}" th:object="${skill}" method="post">
 
             <div class="form-row">
                 <label for="title">Name</label>
@@ -51,19 +51,19 @@
                 </div>
             </div>
 
-                <div class="form-row">
-                    <label for="tag">Tags</label>
-                    <div class="input-container">
-                        <input type="text" id="tag" th:field="*{tag}" placeholder="e.g. Backend">
-                        <span class="error-text" th:if="${#fields.hasErrors('tag')}" th:errors="*{tag}"></span>
-                    </div>
+            <div class="form-row">
+                <label for="tag">Tags</label>
+                <div class="input-container">
+                    <input type="text" id="tag" th:field="*{tag}" placeholder="e.g. Backend">
+                    <span class="error-text" th:if="${#fields.hasErrors('tag')}" th:errors="*{tag}"></span>
                 </div>
+            </div>
 
             <input type="hidden" th:field="*{dateAdded}">
 
             <div class="form-actions">
                 <a th:href="@{/skills}" class="btn-secondary">Cancel</a>
-                <button type="submit" class="btn-primary">Save Skill</button>
+                <button type="submit" class="btn-primary">Update Skill</button>
             </div>
 
         </form>
