@@ -29,23 +29,25 @@
     <section class="status-zone">
         <h2>Backlog</h2>
         <div class="bento-grid">
-
             <div class="skill-card-wrapper" th:each="skill : ${skills}" th:if="${skill.status.name() == 'BACKLOG'}">
 
             <form th:action="@{/skills/{id}(id=${skill.id})}" th:method="delete" class="delete-form">
-                <button type="submit" class="btn-delete" onclick="return confirm('Delete skill?')">×</button>
+                <button type="submit" class="btn-delete" onclick="return confirm('Delete skill?')"></button>
             </form>
 
-            <a th:href="@{/skills/update/{id}(id=${skill.id})}" class="skill-card-link">
-            <article class="skill-card">
-                <div class="title-tag-wrapper">
-                <h3 th:text="${skill.title}">Title</h3>
-                <span class="tag" th:text="${skill.tag}">Tag</span>
-                </div>
-                <p th:text="${skill.description}">Description</p>
-                <span class="date" th:text="${skill.dateAdded}">date</span>
-            </article>
-            </a>
+                <a th:href="@{/skills/update/{id}(id=${skill.id})}" class="skill-card-link">
+                    <article class="skill-card">
+                        <div class="card-body">
+                            <h3 th:text="${skill.title}">Title</h3>
+                            <p th:text="${skill.description}">Description</p>
+                        </div>
+
+                        <div class="card-footer">
+                            <span class="tag" th:text="${skill.tag}">Tag</span>
+                            <span class="date" th:text="${skill.dateAdded}">date</span>
+                        </div>
+                    </article>
+                </a>
             </div>
             <p th:if="${#lists.isEmpty(skills.?[status.name() == 'BACKLOG'])}" class="default-message">
                 No skills in queue yet. What do you want to explore next?
@@ -56,17 +58,26 @@
     <section class="status-zone">
         <h2>In Progress</h2>
         <div class="bento-grid">
-            <a th:href="@{/skills/update/{id}(id=${skill.id})}" class="skill-card-link"
-               th:each="skill : ${skills}" th:if="${skill.status.name() == 'IN_PROGRESS'}">
-            <article class="skill-card">
-                <div class="title-tag-wrapper">
-                <h3 th:text="${skill.title}">Title</h3>
-                    <span class="tag" th:text="${skill.tag}">Tag</span>
-                </div>
-                <p th:text="${skill.description}">Description</p>
-                <span class="date" th:text="${skill.dateAdded}">date</span>
-            </article>
-            </a>
+            <div class="skill-card-wrapper" th:each="skill : ${skills}" th:if="${skill.status.name() == 'IN_PROGRESS'}">
+
+                <form th:action="@{/skills/{id}(id=${skill.id})}" th:method="delete" class="delete-form">
+                    <button type="submit" class="btn-delete" onclick="return confirm('Delete skill?')"></button>
+                </form>
+
+                <a th:href="@{/skills/update/{id}(id=${skill.id})}" class="skill-card-link">
+                    <article class="skill-card">
+                        <div class="card-body">
+                            <h3 th:text="${skill.title}">Title</h3>
+                            <p th:text="${skill.description}">Description</p>
+                        </div>
+
+                        <div class="card-footer">
+                            <span class="tag" th:text="${skill.tag}">Tag</span>
+                            <span class="date" th:text="${skill.dateAdded}">date</span>
+                        </div>
+                    </article>
+                </a>
+            </div>
             <p th:if="${#lists.isEmpty(skills.?[status.name() == 'IN_PROGRESS'])}" class="default-message">
                 Currently not focusing on any specific skill. Time to pick one?
             </p>
@@ -76,18 +87,26 @@
     <section class="status-zone">
         <h2>Mastered</h2>
         <div class="bento-grid">
-            <a th:href="@{/skills/update/{id}(id=${skill.id})}" class="skill-card-link"
-               th:each="skill : ${skills}" th:if="${skill.status.name() == 'MASTERED'}">
-            <article class="skill-card">
-                <div class="title-tag-wrapper">
-                <h3 th:text="${skill.title}">Title</h3>
-                    <span class="tag" th:text="${skill.tag}">Tag</span>
-                </div>
-                <p th:text="${skill.description}">Description</p>
-                <span class="date" th:text="${skill.dateAdded}">date</span>
+            <div class="skill-card-wrapper" th:each="skill : ${skills}" th:if="${skill.status.name() == 'MASTERED'}">
 
-            </article>
-            </a>
+                <form th:action="@{/skills/{id}(id=${skill.id})}" th:method="delete" class="delete-form">
+                    <button type="submit" class="btn-delete" onclick="return confirm('Delete current skill?')"></button>
+                </form>
+
+                <a th:href="@{/skills/update/{id}(id=${skill.id})}" class="skill-card-link">
+                    <article class="skill-card">
+                        <div class="card-body">
+                            <h3 th:text="${skill.title}">Title</h3>
+                            <p th:text="${skill.description}">Description</p>
+                        </div>
+
+                        <div class="card-footer">
+                            <span class="tag" th:text="${skill.tag}">Tag</span>
+                            <span class="date" th:text="${skill.dateAdded}">date</span>
+                        </div>
+                    </article>
+                </a>
+            </div>
             <p th:if="${#lists.isEmpty(skills.?[status.name() == 'MASTERED'])}" class="default-message">
                 The journey has begun. Mastered skills will appear here.
             </p>
