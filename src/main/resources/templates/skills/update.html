@@ -11,7 +11,7 @@
     <main class="form-card">
         <header class="form-header">
             <h1>Update Skill</h1>
-            <p>Add new tagline text...</p>
+            <p>Refine your learning or celebrate a milestone?</p>
         </header>
 
         <form th:action="@{/skills/{id}(id=${skill.id})}" th:object="${skill}" method="post">
@@ -62,9 +62,17 @@
             <input type="hidden" th:field="*{dateAdded}">
 
             <div class="form-actions">
+                <form th:action="@{/skills/{id}(id=${skill.id})}" th:method="delete">
+                    <button type="submit" class="btn-secondary"
+                            style="color: #ff4d4d; border-color: rgba(255, 77, 77, 0.2);"
+                            onclick="return confirm('Are you sure you want to remove this skill from your roadmap?')">
+                        Delete Skill
+                    </button>
+                </form>
                 <a th:href="@{/skills}" class="btn-secondary">Cancel</a>
                 <button type="submit" class="btn-primary">Update Skill</button>
             </div>
+
 
         </form>
     </main>

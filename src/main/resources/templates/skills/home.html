@@ -13,6 +13,7 @@
 
     <div class="action-wrapper">
         <form th:action="@{/skills}" method="get" class="search-input">
+            <span class="search-icon"></span>
             <input type="text" name="title" th:value="${titleFilter}" placeholder="Filter skills by title or tag...">
         </form>
 
@@ -28,8 +29,14 @@
     <section class="status-zone">
         <h2>Backlog</h2>
         <div class="bento-grid">
-            <a th:href="@{/skills/update/{id}(id=${skill.id})}" class="skill-card-link"
-               th:each="skill : ${skills}" th:if="${skill.status.name() == 'BACKLOG'}">
+
+            <div class="skill-card-wrapper" th:each="skill : ${skills}" th:if="${skill.status.name() == 'BACKLOG'}">
+
+            <form th:action="@{/skills/{id}(id=${skill.id})}" th:method="delete" class="delete-form">
+                <button type="submit" class="btn-delete" onclick="return confirm('Delete skill?')">×</button>
+            </form>
+
+            <a th:href="@{/skills/update/{id}(id=${skill.id})}" class="skill-card-link">
             <article class="skill-card">
                 <div class="title-tag-wrapper">
                 <h3 th:text="${skill.title}">Title</h3>
@@ -39,6 +46,7 @@
                 <span class="date" th:text="${skill.dateAdded}">date</span>
             </article>
             </a>
+            </div>
             <p th:if="${#lists.isEmpty(skills.?[status.name() == 'BACKLOG'])}" class="default-message">
                 No skills in queue yet. What do you want to explore next?
             </p>

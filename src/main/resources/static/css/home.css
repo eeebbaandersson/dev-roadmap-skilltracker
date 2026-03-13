@@ -20,7 +20,7 @@ header h1 {
     font-size: 2.8rem;
     font-weight: 800;
     margin-bottom: 3rem;
-    letter-spacing: -0.02em;
+
 
 }
 
@@ -52,12 +52,13 @@ header h1 {
     border-radius: 12px;
     padding: 12px 20px;
     width: 100%;
-    max-width: 500px;
-    display: flex;
+    max-width: 350px;
     align-items: center;
     transition: all 0.3s ease;
     margin-bottom: 0;
     flex-grow: 1;
+    position: relative;
+    display: flex;
 }
 
 .search-input input {
@@ -67,10 +68,28 @@ header h1 {
     font-size: 1rem;
     width: 100%;
     outline: none;
+    padding-left: 20px;
+
 }
 
 .search-input input::placeholder {
     color: rgba(255, 255, 255, 0.3);
+}
+
+.search-icon {
+    position: absolute;
+    left: 16px; /* Avstånd från vänsterkanten */
+    top: 50%;
+    transform: translateY(-50%); /* Centrerar den perfekt vertikalt */
+    width: 17px;
+    height: 17px;
+    background-image: url('../css/assets/search-icon.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    filter: invert(1);
+    opacity: 0.4; /* Lite mer subtil för en modern look */
+    pointer-events: none;
+    z-index: 2;
 }
 
 .btn-add-skill{
@@ -82,12 +101,13 @@ header h1 {
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.1);
     color: rgba(255, 255, 255, 0.6);
-    padding: 0 24px;
+    padding: 0 20px;
     border-radius: 12px;
     text-decoration: none;
     font-size: 0.95rem;
     white-space: nowrap;
     transition: all 0.3s ease;
+    letter-spacing: 0.01em;
 }
 
 .btn-add-skill:hover {
@@ -136,7 +156,56 @@ header h1 {
     max-width: 300px;
 }
 
-.skill-card:hover {
+.skill-card-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+
+.title-tag-wrapper{
+    display: flex;
+    align-items: start;
+    gap: 0.85rem;
+    width: 100%;
+    max-width: 400px;
+    justify-content: start;
+
+}
+
+/* Positionera formen i hörnet */
+.delete-form {
+    position: absolute;
+    top: 15px;    /* Justera dessa pixlar för att hamna rätt i hörnet */
+    right: 15px;
+    z-index: 20;  /* Högt värde så den ligger ovanpå länken */
+    line-height: 0;
+}
+
+.btn-delete {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    color: rgba(255, 255, 255, 0.3); /* Den subtila gråa färgen från din bild */
+    font-size: 1.2rem;
+    cursor: pointer;
+    line-height: 1;
+    z-index: 10;
+    position: relative; /* Ser till att krysset ligger "överst" */
+}
+
+.btn-delete:hover {
+    color: #ff4d4d; /* En snygg röd färg när man hovrar */
+}
+
+.skill-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    transition: transform 0.2s ease;
+}
+
+.skill-card-link:hover .skill-card{
     background: rgba(255, 255, 255, 0.05);
     border-color: rgba(255, 255, 255, 0.2);
     color: #fff;
@@ -184,4 +253,12 @@ header h1 {
     border: 1px solid  #333;
     transition: all 0.3s ease;
     opacity:0.4;
+    letter-spacing: 0.01em;
+}
+
+
+.date {
+    font-family: sans-serif;
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.3);
 }
