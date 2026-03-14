@@ -7,12 +7,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 class SkillMapperTest {
 
-    private  SkillMapper skillMapper;
+    private SkillMapper skillMapper;
 
     @BeforeEach
     void setUp() {
@@ -23,12 +24,13 @@ class SkillMapperTest {
     @Test
     void shouldMapCreateSkillDTOToEntity() {
         // Arrange
+        LocalDateTime fixedTime = LocalDateTime.now();
         CreateSkillDTO dto = new CreateSkillDTO(
                 "Java Spring Boot",
                 SkillStatus.IN_PROGRESS,
                 "Learning to build REST APIs",
                 "https://spring.io",
-                LocalDate.now(),
+                fixedTime,
                 "Backend"
         );
 
@@ -41,7 +43,7 @@ class SkillMapperTest {
         assertThat(result.getStatus()).isEqualTo(SkillStatus.IN_PROGRESS);
         assertThat(result.getDescription()).isEqualTo("Learning to build REST APIs");
         assertThat(result.getSource()).isEqualTo("https://spring.io");
-        assertThat(result.getDateAdded()).isEqualTo(LocalDate.now());
+        assertThat(result.getDateAdded()).isEqualTo(fixedTime);
         assertThat(result.getTag()).isEqualTo("Backend");
         assertThat(result.getId()).isNull();
     }
@@ -50,13 +52,18 @@ class SkillMapperTest {
     @Test
     void shouldMapEntityToSkillDTO() {
         // Arrange
+        LocalDateTime addedTime = LocalDateTime.now().minusDays(1);
+        LocalDateTime updatedTime = LocalDateTime.now();
+
         Skill skill = new Skill();
         skill.setId(1L);
         skill.setTitle("Docker Basics");
         skill.setStatus(SkillStatus.BACKLOG);
         skill.setDescription("Improving Docker knowledge");
         skill.setSource("https://www.docker.com");
-        skill.setDateAdded(LocalDate.now());
+        skill.setDateAdded(addedTime);
+        skill.setUpdatedAt(updatedTime);
+        skill.setCompletedAt(null);
         skill.setTag("DevOps");
 
         // Act
@@ -69,32 +76,38 @@ class SkillMapperTest {
         assertThat(result.status()).isEqualTo(SkillStatus.BACKLOG);
         assertThat(result.description()).isEqualTo("Improving Docker knowledge");
         assertThat(result.source()).isEqualTo("https://www.docker.com");
-        assertThat(result.dateAdded()).isEqualTo(LocalDate.now());
+        assertThat(result.dateAdded()).isEqualTo(addedTime);
+        assertThat(result.updatedAt()).isEqualTo(updatedTime);
+        assertThat(result.completedAt()).isNull();
         assertThat(result.tag()).isEqualTo("DevOps");
 
     }
 
+    // Todo: uppdatera för nya tillagda datumfält
     // UpdateSkillDTO
     @Test
     void shouldUpdateExistingEntityFromUpdateSkillDTO() {
         // Arrange
+        LocalDateTime originalDate = LocalDateTime.now().minusWeeks(1);
+
         Skill existingSkill = new Skill();
         existingSkill.setId(5L);
         existingSkill.setTitle("Old Title");
         existingSkill.setStatus(SkillStatus.BACKLOG);
         existingSkill.setDescription("Old description ");
         existingSkill.setSource("Old Source");
-        existingSkill.setDateAdded(LocalDate.of(2023, 1, 1));
+        existingSkill.setDateAdded(originalDate);
         existingSkill.setTag("Old Tag");
 
         // DTO med ny data
+        LocalDateTime updateTime = LocalDateTime.now();
         UpdateSkillDTO updatedDto = new UpdateSkillDTO(
                 5L,
                 "New Awesome Title",
                 SkillStatus.MASTERED,
                 "Updated description",
                 "Source",
-                LocalDate.now(),
+                updateTime,
                 "Java"
         );
 
@@ -107,7 +120,7 @@ class SkillMapperTest {
         assertThat(existingSkill.getStatus()).isEqualTo(SkillStatus.MASTERED);
         assertThat(existingSkill.getDescription()).isEqualTo("Updated description");
         assertThat(existingSkill.getSource()).isEqualTo("Source");
-        assertThat(existingSkill.getDateAdded()).isEqualTo(LocalDate.now());
+        assertThat(existingSkill.getDateAdded()).isEqualTo(updateTime);
         assertThat(existingSkill.getTag()).isEqualTo("Java");
 
     }

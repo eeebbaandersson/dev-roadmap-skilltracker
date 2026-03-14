@@ -11,7 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -39,7 +39,7 @@ class SkillServiceIntegrationTest {
                 SkillStatus.BACKLOG,
                 "Testing DB connection",
                 "https://docs.spring.io",
-                LocalDate.now(),
+                LocalDateTime.now(),
                 "Test"
         );
 
@@ -59,7 +59,7 @@ class SkillServiceIntegrationTest {
                 SkillStatus.BACKLOG,
                 "...",
                 "https://test.io",
-                LocalDate.now(),
+                LocalDateTime.now(),
                 "Test"
         );
         skillService.createSkill(dto);
@@ -73,9 +73,9 @@ class SkillServiceIntegrationTest {
     @Test
     void shouldReturnFilteredSkills_WhenSearchingByTitleAndTag() {
         // Arrange - Skapa flera skills
-        skillService.createSkill(new CreateSkillDTO("Java Spring", SkillStatus.BACKLOG, "...", "https://test.io", LocalDate.now(), "Backend"));
-        skillService.createSkill(new CreateSkillDTO("React Frontend", SkillStatus.BACKLOG, "...", "https://test.io", LocalDate.now(), "Frontend"));
-        skillService.createSkill(new CreateSkillDTO("Java Hibernate", SkillStatus.BACKLOG, "...", "https://test.io", LocalDate.now(), "Database"));
+        skillService.createSkill(new CreateSkillDTO("Java Spring", SkillStatus.BACKLOG, "...", "https://test.io", LocalDateTime.now(), "Backend"));
+        skillService.createSkill(new CreateSkillDTO("React Frontend", SkillStatus.BACKLOG, "...", "https://test.io", LocalDateTime.now(), "Frontend"));
+        skillService.createSkill(new CreateSkillDTO("Java Hibernate", SkillStatus.BACKLOG, "...", "https://test.io", LocalDateTime.now(), "Database"));
 
         // Act 1: Sök på bara titel (Java)
         Page<SkillDTO> titleSearch = skillService.getSkills("Java", null, Pageable.unpaged());
@@ -84,10 +84,9 @@ class SkillServiceIntegrationTest {
         Page<SkillDTO> tagSearch = skillService.getSkills(null, "Frontend", Pageable.unpaged());
 
         // Act 3: Sök på något som inte finns (Phyton)
-        Page<SkillDTO> titleSearch2 = skillService.getSkills("Phyton", null, Pageable.unpaged());
+        Page<SkillDTO> titleSearch2 = skillService.getSkills("Python", null, Pageable.unpaged());
 
         // Assert
-        titleSearch.getContent().forEach(s -> System.out.println("Debugg: Found skill " + s.title()));
         assertThat(titleSearch.getContent()).hasSize(2);
         assertThat(tagSearch.getContent()).hasSize(1);
         assertThat(titleSearch2.getContent()).isEmpty();
@@ -103,7 +102,7 @@ class SkillServiceIntegrationTest {
                 SkillStatus.BACKLOG,
                 "...",
                 "https://test.io",
-                LocalDate.now().plusDays(1),
+                LocalDateTime.now().plusDays(1),
                 "Tag"
         );
 
@@ -122,7 +121,7 @@ class SkillServiceIntegrationTest {
                 SkillStatus.BACKLOG,
                 "Original description",
                 "https://test.io",
-                LocalDate.now(),
+                LocalDateTime.now(),
                 "Original Tag"
         );
 
@@ -136,7 +135,7 @@ class SkillServiceIntegrationTest {
                 SkillStatus.IN_PROGRESS,
                 "Updated description",
                 "https://test.io",
-                LocalDate.now(),
+                LocalDateTime.now(),
                 "Updated Tag"
         );
 
@@ -163,7 +162,7 @@ class SkillServiceIntegrationTest {
                 SkillStatus.BACKLOG,
                 "Description",
                 "https://test.io",
-                LocalDate.now(),
+                LocalDateTime.now(),
                 "Tag"
         );
 
@@ -182,7 +181,7 @@ class SkillServiceIntegrationTest {
                 SkillStatus.BACKLOG,
                 "Improving ability to create Java Docs",
                 "https://docs.oracle.com",
-                LocalDate.now(),
+                LocalDateTime.now(),
                 "Java"
         );
 
@@ -197,5 +196,10 @@ class SkillServiceIntegrationTest {
                 .isInstanceOf(ResourceNotFoundException.class)
                 .hasMessageContaining("Error: Could not find skill with id: " + id);
     }
+
+    // Testfall att addera:
+    // Verifiera logik för completedAt
+    // Verifiera updatedAT (SPRING BOOTSs JPA Auditing)
+
 
 }
