@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Service
 // @Transactional(readOnly = true)
@@ -57,12 +58,17 @@ public class SkillService {
             throw new IllegalArgumentException("A skill with title: " + dto.title() + " already exists.");
         }
 
-        if (dto.dateAdded().isAfter(LocalDate.now())){
+        if (dto.dateAdded().isAfter(LocalDateTime.now())){
             throw new IllegalArgumentException("Date cannot be in the future.");
         }
 
         // Använder mappern för att skapa entitet från DTO:n
         Skill skillEntity = skillMapper.toEntity(dto);
+
+        // Om man skapar en skill som redan är mastered, sätt completedAd direkt
+        if (skillEntity.getStatus() == SkillStatus.MASTERED) {
+            skillEntity.setCompletedAt(LocalDateTime.now());
+        }
 
         // Sparar entiteten i databasen genom repositoryt
         // Repositoryt returnerar den sparade entitetn (nu med ett genererart ID)
@@ -73,16 +79,27 @@ public class SkillService {
     }
 
 
+    @Transactional
     public SkillDTO updateSkill(Long id, UpdateSkillDTO dto) {
 
         // Hämta befintlig skill eller kasta exception om den saknas
         Skill existingSkill = skillRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_MESSAGE + dto.id()));
+                .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_MESSAGE + id));
+
+        // Sparar undan den gamla statusen
+        SkillStatus oldStatus = existingSkill.getStatus();
 
        // Uppdatera fältet på den befintliga entiteten med data från DTO:n
         skillMapper.updateEntityFromDTO(dto, existingSkill);
 
-        existingSkill.setId(id);
+        // Om statusen sätts till Mastered --> sätt dagens datum
+        if (oldStatus != SkillStatus.MASTERED && existingSkill.getStatus() == SkillStatus.MASTERED) {
+            existingSkill.setCompletedAt(LocalDateTime.now());
+        }
+        // Om statusen ändras från Mastered till något annat --> Nollställ datumet
+        else if (oldStatus == SkillStatus.MASTERED && existingSkill.getStatus() != SkillStatus.MASTERED) {
+            existingSkill.setCompletedAt(null);
+        }
 
         // Sparar ändringarna
         Skill updatedSkill = skillRepository.save(existingSkill);

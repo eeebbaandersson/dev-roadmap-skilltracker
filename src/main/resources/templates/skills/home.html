@@ -31,9 +31,9 @@
         <div class="bento-grid">
             <div class="skill-card-wrapper" th:each="skill : ${skills}" th:if="${skill.status.name() == 'BACKLOG'}">
 
-            <form th:action="@{/skills/{id}(id=${skill.id})}" th:method="delete" class="delete-form">
-                <button type="submit" class="btn-delete" onclick="return confirm('Delete skill?')"></button>
-            </form>
+                <form th:action="@{/skills/{id}(id=${skill.id})}" th:method="delete" class="delete-form">
+                    <button type="submit" class="btn-delete" onclick="return confirm('Delete skill?')"></button>
+                </form>
 
                 <a th:href="@{/skills/update/{id}(id=${skill.id})}" class="skill-card-link">
                     <article class="skill-card">
@@ -44,7 +44,17 @@
 
                         <div class="card-footer">
                             <span class="tag" th:text="${skill.tag}">Tag</span>
-                            <span class="date" th:text="${skill.dateAdded}">date</span>
+                            <span th:if="${skill.completedAt != null}" class="date-label">
+                                Completed: <span th:text="${#temporals.format(skill.completedAt, 'yyyy-MM-dd')}"></span>
+                            </span>
+
+                            <span th:if="${skill.completedAt == null && skill.updatedAt != null && skill.updatedAt.isAfter(skill.dateAdded.plusSeconds(1))}" class="date-label">
+                                Updated: <span th:text="${#temporals.format(skill.updatedAt, 'yyyy-MM-dd')}"></span>
+                            </span>
+
+                            <span th:if="${skill.completedAt == null && (skill.updatedAt == null || !skill.updatedAt.isAfter(skill.dateAdded.plusSeconds(1)))}" class="date-label">
+                                Added: <span th:text="${#temporals.format(skill.dateAdded, 'yyyy-MM-dd')}"></span>
+                            </span>
                         </div>
                     </article>
                 </a>
@@ -73,7 +83,17 @@
 
                         <div class="card-footer">
                             <span class="tag" th:text="${skill.tag}">Tag</span>
-                            <span class="date" th:text="${skill.dateAdded}">date</span>
+                            <span th:if="${skill.completedAt != null}" class="date-label">
+                                Completed: <span th:text="${#temporals.format(skill.completedAt, 'yyyy-MM-dd')}"></span>
+                            </span>
+
+                            <span th:if="${skill.completedAt == null && skill.updatedAt != null && skill.updatedAt.isAfter(skill.dateAdded.plusSeconds(1))}" class="date-label">
+                                Updated: <span th:text="${#temporals.format(skill.updatedAt, 'yyyy-MM-dd')}"></span>
+                            </span>
+
+                            <span th:if="${skill.completedAt == null && (skill.updatedAt == null || !skill.updatedAt.isAfter(skill.dateAdded.plusSeconds(1)))}" class="date-label">
+                                Added: <span th:text="${#temporals.format(skill.dateAdded, 'yyyy-MM-dd')}"></span>
+                            </span>
                         </div>
                     </article>
                 </a>
@@ -102,7 +122,17 @@
 
                         <div class="card-footer">
                             <span class="tag" th:text="${skill.tag}">Tag</span>
-                            <span class="date" th:text="${skill.dateAdded}">date</span>
+                            <span th:if="${skill.completedAt != null}" class="date-label">
+                                Completed: <span th:text="${#temporals.format(skill.completedAt, 'yyyy-MM-dd')}"></span>
+                            </span>
+
+                            <span th:if="${skill.completedAt == null && skill.updatedAt != null && skill.updatedAt.isAfter(skill.dateAdded.plusSeconds(1))}" class="date-label">
+                                Updated: <span th:text="${#temporals.format(skill.updatedAt, 'yyyy-MM-dd')}"></span>
+                            </span>
+
+                            <span th:if="${skill.completedAt == null && (skill.updatedAt == null || !skill.updatedAt.isAfter(skill.dateAdded.plusSeconds(1)))}" class="date-label">
+                                Added: <span th:text="${#temporals.format(skill.dateAdded, 'yyyy-MM-dd')}"></span>
+                            </span>
                         </div>
                     </article>
                 </a>

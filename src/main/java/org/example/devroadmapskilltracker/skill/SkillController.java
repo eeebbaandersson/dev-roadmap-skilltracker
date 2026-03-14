@@ -55,7 +55,6 @@ public class SkillController {
 
         // Returnerar svaret med status 200
        return ResponseEntity.ok(updatedSkill);
-
     }
 
     // Ta bort vald skill
@@ -66,7 +65,6 @@ public class SkillController {
 
        // Returnerar status 204
        return ResponseEntity.noContent().build();
-
 
     }
 

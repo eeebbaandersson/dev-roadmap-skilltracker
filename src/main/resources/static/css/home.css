@@ -20,8 +20,6 @@ header h1 {
     font-size: 2.8rem;
     font-weight: 800;
     margin-bottom: 3rem;
-
-
 }
 
 .tagline{
@@ -38,9 +36,9 @@ header h1 {
 .action-wrapper {
     display: flex;
     align-items: stretch;
-    gap: 1rem; /* Avstånd mellan sökfält och knapp */
+    gap: 1rem;
     width: 100%;
-    max-width: 650px; /* Lite bredare för att rymma båda */
+    max-width: 650px;
     justify-content: center;
 }
 
@@ -78,16 +76,16 @@ header h1 {
 
 .search-icon {
     position: absolute;
-    left: 16px; /* Avstånd från vänsterkanten */
+    left: 16px;
     top: 50%;
-    transform: translateY(-50%); /* Centrerar den perfekt vertikalt */
+    transform: translateY(-50%);
     width: 17px;
     height: 17px;
     background-image: url('../css/assets/search-icon.svg');
     background-size: contain;
     background-repeat: no-repeat;
     filter: invert(1);
-    opacity: 0.4; /* Lite mer subtil för en modern look */
+    opacity: 0.4;
     pointer-events: none;
     z-index: 2;
 }
@@ -185,28 +183,32 @@ header h1 {
     transition: opacity 0.2s ease-in-out;
 }
 
-
-.skill-card-wrapper:hover .delete-form {
+/* Döljer delete-knapp tills man hovrar över kort*/
+.skill-card-wrapper:hover .delete-form{
     opacity: 1;
 }
 
-.btn-delete {
-    width: 18px;  /* Bestäm storleken på ikonen */
-    height: 18px;
-    background-color: rgba(255, 255, 255, 0.3); /* Ikonens färg */
+/* Döljer datum tills man hovrar över kort*/
+.skill-card-wrapper:hover .date-label{
+    opacity: 1;
+}
 
-    /* Ersätt 'close-icon.svg' med din fils sökväg */
+
+
+.btn-delete {
+    width: 18px;
+    height: 18px;
+    background-color: rgba(255, 255, 255, 0.3);
     mask: url('../css/assets/close-icon.svg') no-repeat center;
     -webkit-mask: url('../css/assets/close-icon.svg') no-repeat center;
     mask-size: contain;
-
     border: none;
     cursor: pointer;
     transition: all 0.2s ease;
 }
 
 .btn-delete:hover {
-    background-color: #ff4d4d; /* En snygg röd färg när man hovrar */
+    background-color: #ff4d4d;
 
 }
 
@@ -222,14 +224,12 @@ header h1 {
     border-color: rgba(255, 255, 255, 0.2);
     color: #fff;
 
-
 }
 
 .skill-card:hover .tag {
     background: rgba(255, 255, 255, 0.05);
     border-color: rgba(255, 255, 255, 0.2);
     color: #fff;
-
 
 }
 
@@ -254,7 +254,7 @@ header h1 {
 }
 
 .default-message {
-    color: rgba(255, 255, 255, 0.3); /* Väldigt dämpad vit/grå */
+    color: rgba(255, 255, 255, 0.3);
     font-style: italic;
     font-size: 0.9rem;
     text-align: center;
@@ -265,7 +265,6 @@ header h1 {
 .tag {
     font-family: sans-serif;
     font-size: 0.7rem;
-
     text-transform: uppercase;
     padding: 4px 8px;
     border-radius: 6px;
@@ -274,13 +273,14 @@ header h1 {
     transition: all 0.3s ease;
     opacity:0.6;
     letter-spacing: 0.01em;
-
 }
 
 
-.date {
+.date-label {
     font-family: sans-serif;
     font-size: 0.95rem;
     color: rgba(255, 255, 255, 0.3);
     margin-left: 4px;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
 }

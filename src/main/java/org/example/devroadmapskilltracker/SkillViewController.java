@@ -15,6 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Controller
 @RequestMapping("/skills")
@@ -57,7 +58,7 @@ public class SkillViewController {
                 SkillStatus.BACKLOG,
                 "",
                 "https://",
-                LocalDate.now(),
+                LocalDateTime.now(),
                 ""
         );
         model.addAttribute("skill", emptyDto);
@@ -116,9 +117,16 @@ public class SkillViewController {
 
         // Går allt igenom skicka tillbaka användaren till home-sidan
         return "redirect:/skills";
-
-
-
     }
+
+    @DeleteMapping("/{id}")
+    public String deleteSkill(@PathVariable Long id) {
+        // Anropar service för att ta bort vald skill
+        skillService.deleteSkill(id);
+
+        // Går allt igenom skicka tillbaka användaren till home-sidan
+        return "redirect:/skills";
+    }
+
 
 }

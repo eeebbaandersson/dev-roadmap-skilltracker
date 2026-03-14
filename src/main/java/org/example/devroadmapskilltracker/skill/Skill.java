@@ -3,12 +3,16 @@ package org.example.devroadmapskilltracker.skill;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import org.hibernate.validator.constraints.URL;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Entity
 @Table(name = "skills")
+@EntityListeners(AuditingEntityListener.class)
 public class Skill {
 
     @Id
@@ -31,7 +35,14 @@ public class Skill {
 
     @NotNull(message = "Date is required")
     @PastOrPresent(message = "Date cannot be in the future")
-    private LocalDate dateAdded;
+    private LocalDateTime dateAdded;
+
+    @Column(name = "updated_at")
+    @LastModifiedDate
+    private LocalDateTime updatedAt;
+
+    @Column(name = "completed_at")
+    private LocalDateTime completedAt;
 
     @NotBlank(message = "Tag is required")
     private String tag; // Ex: "Databas", "Testning", "Ramverk"
@@ -39,10 +50,12 @@ public class Skill {
     public Skill() {}
 
     // Todo: Addera saknade attributer
-    public Skill(String title, String description, LocalDate dateAdded, String tag, SkillStatus status) {
+    public Skill(String title, String description, LocalDateTime dateAdded, LocalDateTime updatedAt, LocalDateTime completedAt, String tag, SkillStatus status) {
         this.title = title;
         this.description = description;
         this.dateAdded = dateAdded;
+        this.updatedAt = updatedAt;
+        this.completedAt = completedAt;
         this.tag = tag;
         this.status = status;
     }
@@ -87,11 +100,11 @@ public class Skill {
         this.source = source;
     }
 
-    public LocalDate getDateAdded() {
+    public LocalDateTime getDateAdded() {
         return dateAdded;
     }
 
-    public void setDateAdded(LocalDate dateAdded) {
+    public void setDateAdded(LocalDateTime dateAdded) {
         this.dateAdded = dateAdded;
     }
 
@@ -101,5 +114,47 @@ public class Skill {
 
     public void setTag(String tag) {
         this.tag = tag;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public LocalDateTime getCompletedAt() {
+        return completedAt;
+    }
+
+    public void setCompletedAt(LocalDateTime completedAt) {
+        this.completedAt = completedAt;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Skill skill)) return false;
+        return Objects.equals(id, skill.id) && Objects.equals(title, skill.title) && status == skill.status && Objects.equals(description, skill.description) && Objects.equals(source, skill.source) && Objects.equals(dateAdded, skill.dateAdded) && Objects.equals(updatedAt, skill.updatedAt) && Objects.equals(completedAt, skill.completedAt) && Objects.equals(tag, skill.tag);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, status, description, source, dateAdded, updatedAt, completedAt, tag);
+    }
+
+    @Override
+    public String toString() {
+        return "Skill{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", status=" + status +
+                ", description='" + description + '\'' +
+                ", source='" + source + '\'' +
+                ", dateAdded=" + dateAdded +
+                ", updatedAt=" + updatedAt +
+                ", completedAt=" + completedAt +
+                ", tag='" + tag + '\'' +
+                '}';
     }
 }

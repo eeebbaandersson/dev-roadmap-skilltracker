@@ -29,6 +29,8 @@ public class SkillMapper {
                 skill.getDescription(),
                 skill.getSource(),
                 skill.getDateAdded(),
+                skill.getUpdatedAt(),
+                skill.getCompletedAt(),
                 skill.getTag()
         );
     }

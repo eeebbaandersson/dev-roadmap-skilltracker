@@ -2,7 +2,7 @@ package org.example.devroadmapskilltracker.skill.dto;
 
 import org.example.devroadmapskilltracker.skill.SkillStatus;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public record SkillDTO(
         Long id,
@@ -10,6 +10,8 @@ public record SkillDTO(
         SkillStatus status,
         String description,
         String source,
-        LocalDate dateAdded,
+        LocalDateTime dateAdded,
+        LocalDateTime updatedAt,
+        LocalDateTime completedAt,
         String tag
-) {}
+        ) {}
