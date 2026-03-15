@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"> <body>
+
+<div th:fragment="code-background" class="code-bg-decoration">
+
+    <div class="code-snippet code-java2">
+        public String toString() {
+        return "Skill{" +
+        "id=" + id +
+        ", title='" + title + '\'' +
+        ", status=" + status +
+        ", description='" + description + '\'' +
+        ", source='" + source + '\'' +
+        ", dateAdded=" + dateAdded +
+        ", updatedAt=" + updatedAt +
+        ", completedAt=" + completedAt +
+        ", tag='" + tag + '\'' +
+        '}';
+        }
+    </div>
+
+
+    <div class="code-snippet code-java2">
+            <pre><code>
+@Transactional
+public SkillDTO updateSkill(Long id, SkillDTO dto) {
+    Skill skill = repository.findById(id)
+        .orElseThrow(() -> new EntityNotFoundException());
+
+    skill.setTitle(dto.getTitle());
+    skill.setStatus(dto.getStatus());
+    skill.setUpdatedAt(LocalDateTime.now());
+
+    return mapper.toDTO(repository.save(skill));
+}</code></pre>
+    </div>
+
+    <div class="code-snippet code-js">
+            <pre><code>
+async function fetchSkills() {
+    try {
+        const response = await fetch('/api/v1/skills');
+        const data = await response.json();
+        return data.filter(s => s.active);
+    } catch (err) {
+        console.error("Failed to load roadmap", err);
+    }
+};</code></pre>
+    </div>
+
+    <div class="code-snippet code-css">
+            <pre><code>
+.skill-card:hover {
+  filter: drop-shadow(
+    0 0 10px #60a5fa
+  );
+}</code></pre>
+    </div>
+
+    <div class="code-snippet code-sql">
+    <pre><code>
+SELECT
+    tag,
+    COUNT(*) as total,
+    AVG(DATEDIFF(completed_at, date_added)) as speed
+FROM skills
+WHERE status = 'MASTERED'
+GROUP BY tag;</code></pre>
+    </div>
+
+
+    <div class="code-snippet code-docker">
+    <pre><code>
+FROM openjdk:21-jdk
+COPY target/*.jar app.jar
+ENTRYPOINT ["java","-jar","/app.jar"]</code></pre>
+    </div>
+
+    <div class="code-snippet code-react">
+    <pre><code>
+const [skills, setSkills] = useState([]);
+useEffect(() => {
+    loadRoadmap().then(data => setSkills(data));
+}, []);</code></pre>
+    </div>
+</div>
+
+
+
+</body>
+</html>

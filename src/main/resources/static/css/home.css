@@ -3,7 +3,7 @@ body {
     background-color: #0a0a0a;
     color: #ffffff;
     font-family: sans-serif;
-    margin: 0;
+    margin-top: -1.8rem;
     padding: 3rem;
     box-sizing: border-box;
 }
@@ -23,14 +23,14 @@ header h1 {
 }
 
 .tagline{
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(255, 255, 255, 0.7);
     font-size: 1.1rem;
     font-weight: 400;
     letter-spacing: 0.01em;
     margin-top: -2rem;
     margin-bottom: 2rem;
     max-width: 400px;
-    line-height: 1.6;
+    line-height: 1.4;
 }
 
 .action-wrapper {
@@ -45,8 +45,9 @@ header h1 {
 
 /* Containern som håller sökfältet */
 .search-input {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background-color: #141414;
+    backdrop-filter: blur(10px);
+    border: 1px solid #222;
     border-radius: 12px;
     padding: 12px 20px;
     width: 100%;
@@ -96,8 +97,9 @@ header h1 {
     justify-content: center;
     align-items: center;
     gap: 8px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background-color: #141414;
+    backdrop-filter: blur(10px);
+    border: 1px solid #222;
     color: rgba(255, 255, 255, 0.6);
     padding: 0 20px;
     border-radius: 12px;
@@ -147,6 +149,7 @@ header h1 {
 /* Bento-boxen (Skill Card) */
 .skill-card {
     background-color: #141414;
+    backdrop-filter: blur(10px);
     border: 1px solid #222;
     border-radius: 16px;
     padding: 1.5rem;
@@ -186,11 +189,12 @@ header h1 {
 /* Döljer delete-knapp tills man hovrar över kort*/
 .skill-card-wrapper:hover .delete-form{
     opacity: 1;
+
 }
 
 /* Döljer datum tills man hovrar över kort*/
 .skill-card-wrapper:hover .date-label{
-    opacity: 1;
+    opacity: 0.6;
 }
 
 
@@ -220,14 +224,15 @@ header h1 {
 }
 
 .skill-card-link:hover .skill-card{
-    background: rgba(255, 255, 255, 0.05);
+
     border-color: rgba(255, 255, 255, 0.2);
     color: #fff;
+    transform: translateY(-5px);
 
 }
 
 .skill-card:hover .tag {
-    background: rgba(255, 255, 255, 0.05);
+    background: #2a2a2a;
     border-color: rgba(255, 255, 255, 0.2);
     color: #fff;
 

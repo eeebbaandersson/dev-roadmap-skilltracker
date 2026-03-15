@@ -1,0 +1,62 @@
+/* Container som täcker hela bakgrunden */
+.code-bg-decoration {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+    user-select: none;
+    background-color: #0f0f0f; /* Matchar din mörka bakgrund */
+}
+
+.code-snippet {
+    position: absolute;
+    font-family: 'Fira Code', 'Courier New', monospace;
+    font-size: 0.85rem;
+    color: rgba(96, 165, 250, 0.05);
+    text-shadow: 0 0 8px rgb(96, 214, 250);
+    white-space: pre;
+    opacity: 1;
+}
+
+/* Positionering för de olika kodblocken */
+
+.code-java {
+    top: -5%;
+    left: -7%;
+}
+
+.code-java2 {
+    top: 5%;
+    left: -2.5%;
+}
+
+.code-js {
+    bottom: 6%;
+    right: 3%;
+}
+
+.code-css {
+    top: 45%;
+    right: -6%;
+
+}
+
+.code-sql {
+    bottom: 5%;
+    left: 5%;
+}
+
+.code-docker {
+    top: 59%;
+    right: 2%;
+    opacity: 0.8;
+}
+
+.code-react {
+    top: 10%;
+    right: -3%;
+}

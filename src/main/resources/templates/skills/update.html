@@ -62,19 +62,18 @@
             <input type="hidden" th:field="*{dateAdded}">
 
             <div class="form-actions">
-                <form th:action="@{/skills/{id}(id=${skill.id})}" th:method="delete">
-                    <button type="submit" class="btn-secondary"
-                            style="color: #ff4d4d; border-color: rgba(255, 77, 77, 0.2);"
-                            onclick="return confirm('Are you sure you want to remove this skill from your roadmap?')">
-                        Delete Skill
-                    </button>
-                </form>
-                <a th:href="@{/skills}" class="btn-secondary">Cancel</a>
                 <button type="submit" class="btn-primary">Update Skill</button>
+                <a th:href="@{/skills}" class="btn-secondary">Cancel</a>
+
+                <button type="submit" form="delete-form" class="btn-delete-action"
+                        onclick="return confirm('Are you sure you want to remove current skill?')">
+                    Delete Skill
+                </button>
             </div>
 
-
         </form>
+
+        <form th:action="@{/skills/{id}(id=${skill.id})}" th:method="delete" id="delete-form"></form>
     </main>
 </div>
 
