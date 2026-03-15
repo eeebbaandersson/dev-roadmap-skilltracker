@@ -12,12 +12,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
-@Transactional // Gör en rollback av ändringar i databasen efter varje test
+@Transactional // Gör en auto-rollback av ändringar i databasen efter varje test
 class SkillServiceIntegrationTest {
 
     @Autowired
@@ -197,9 +197,85 @@ class SkillServiceIntegrationTest {
                 .hasMessageContaining("Error: Could not find skill with id: " + id);
     }
 
-    // Testfall att addera:
-    // Verifiera logik för completedAt
-    // Verifiera updatedAT (SPRING BOOTSs JPA Auditing)
+    @Test
+    void shouldSetCompletedAt_WhenSkillStatusChangesToMastered() {
+        // Arrange -> Skapa/spara en initial skill
+        CreateSkillDTO skill = new CreateSkillDTO(
+                "Test",
+                SkillStatus.IN_PROGRESS,
+                "Original description",
+                "https://test.io",
+                LocalDateTime.now(),
+                "Tag"
+        );
 
+        SkillDTO savedSkill = skillService.createSkill(skill);
+        // Sparar ID:et
+        Long id = savedSkill.id();
+
+        // Act
+        UpdateSkillDTO updatedSkill = new UpdateSkillDTO(
+                id,
+                "Test",
+                SkillStatus.MASTERED,
+                "Original description",
+                "https://test.io",
+                LocalDateTime.now(),
+                "Tag"
+        );
+
+        skillService.updateSkill(id, updatedSkill);
+
+        // Assert
+        SkillDTO result = skillService.getSkillById(id); // Hämtar ID:et på nytt från databasen
+
+        assertThat(result.status()).isEqualTo(SkillStatus.MASTERED);
+        assertThat(result.completedAt()).isNotNull();
+        assertThat(result.completedAt()).isCloseTo(LocalDateTime.now(), within(2, ChronoUnit.SECONDS));
+    }
+
+
+    // Verifiera updatedAT (SPRING BOOTSs JPA Auditing)
+    @Test
+    void shouldUpdateTimestamp_WhenSkillIsModified() throws InterruptedException {
+        // Arrange -> Skapa/spara en initial skill
+        CreateSkillDTO skill = new CreateSkillDTO(
+                "Maven",
+                SkillStatus.IN_PROGRESS,
+                "Original description",
+                "https://test.io",
+                LocalDateTime.now(),
+                "Tag"
+        );
+
+        SkillDTO savedSkill = skillService.createSkill(skill);
+        Long id = savedSkill.id();
+        LocalDateTime timeBeforeUpdate = savedSkill.updatedAt();
+
+        // Simulerar en kort fördröjning
+        Thread.sleep(100);
+
+        // Act
+        UpdateSkillDTO updatedSkill = new UpdateSkillDTO(
+                id,
+                "Maven",
+                SkillStatus.IN_PROGRESS,
+                "Updated description to trigger auditing",
+                "https://test.io",
+                LocalDateTime.now(),
+                "Tag"
+        );
+
+        skillService.updateSkill(id, updatedSkill);
+
+        // Assert
+        SkillDTO result = skillService.getSkillById(id);
+
+        // Kontroll av att updatedAt är efter den första undansparade tiden, använder AssertJs inbyggda marginal isCloseTo
+        assertThat(result.updatedAt()).isCloseTo(LocalDateTime.now(), within(2, ChronoUnit.SECONDS));
+        assertThat(result.updatedAt()).isAfterOrEqualTo(timeBeforeUpdate);
+        // Kontroll att beskrivningen uppdaterades
+        assertThat(result.description()).isEqualTo("Updated description to trigger auditing");
+    }
 
 }
