@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>DevRoadMap | Error</title>
+    <link rel="stylesheet" th:href="@{/css/error.css}">
+    <link rel="stylesheet" th:href="@{/css/decorations.css}">
+
+</head>
+<body>
+<div th:replace="~{skills/fragments/decorations :: code-background}"></div>
+
+<div class="container">
+    <div class="error-card">
+        <header class="">
+            <div>Oops!</div>
+            <h1 th:text="${errorTitle}">Something went wrong</h1>
+            <p th:text="${errorMessage}">An unexpected error occurred...</p>
+
+            <a th:href="@{/skills}" class="btn-back">Back to RoadMap</a>
+        </header>
+    </div>
+</div>
+
+
+</body>
+</html>
