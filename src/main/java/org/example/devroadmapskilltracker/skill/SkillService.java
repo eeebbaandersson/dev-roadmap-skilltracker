@@ -3,11 +3,12 @@ package org.example.devroadmapskilltracker.skill;
 import org.example.devroadmapskilltracker.skill.dto.CreateSkillDTO;
 import org.example.devroadmapskilltracker.skill.dto.SkillDTO;
 import org.example.devroadmapskilltracker.skill.dto.UpdateSkillDTO;
+import org.example.devroadmapskilltracker.skill.exception.ResourceNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import java.time.LocalDate;
+
 import java.time.LocalDateTime;
 
 @Service
@@ -15,7 +16,7 @@ import java.time.LocalDateTime;
 
 public class SkillService {
 
-    private static  final String NOT_FOUND_MESSAGE = "Error: Could not find skill with id: ";
+    private static final String NOT_FOUND_MESSAGE = "Error: Could not find skill with id: ";
 
     private final SkillRepository skillRepository;
     private final SkillMapper skillMapper;
@@ -58,14 +59,10 @@ public class SkillService {
             throw new IllegalArgumentException("A skill with title: " + dto.title() + " already exists.");
         }
 
-        if (dto.dateAdded().isAfter(LocalDateTime.now())){
-            throw new IllegalArgumentException("Date cannot be in the future.");
-        }
-
         // Använder mappern för att skapa entitet från DTO:n
         Skill skillEntity = skillMapper.toEntity(dto);
 
-        // Om man skapar en skill som redan är mastered, sätt completedAd direkt
+        // Om man skapar en skill som redan är mastered, sätt completedAt direkt
         if (skillEntity.getStatus() == SkillStatus.MASTERED) {
             skillEntity.setCompletedAt(LocalDateTime.now());
         }

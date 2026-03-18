@@ -3,6 +3,7 @@ package org.example.devroadmapskilltracker.skill;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import org.hibernate.validator.constraints.URL;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -19,22 +20,22 @@ public class Skill {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Title is required")
+    @NotBlank(message = "A title is required")
     private String title;
 
     @NotNull(message = "Status is required")
     @Enumerated(EnumType.STRING) // Sparar texten (ex. "BACKLOG") istället för en siffra i databasen
     private SkillStatus status;
 
-    @NotBlank(message = "Description is required")
-    @Column(columnDefinition = "TEXT") // MySQl skapar ett större textfält
+    @NotBlank(message = "A description is required")
+    @Column(columnDefinition = "TEXT")
     private String description;
 
-    @URL(message = "Must be a valid URL")
+    @URL(message = "Resource must have a valid URL format")
     private String source;
 
-    @NotNull(message = "Date is required")
-    @PastOrPresent(message = "Date cannot be in the future")
+    @CreatedDate
+    @Column(name= "date_added", updatable = false)
     private LocalDateTime dateAdded;
 
     @Column(name = "updated_at")
@@ -49,15 +50,25 @@ public class Skill {
 
     public Skill() {}
 
-    // Todo: Addera saknade attributer
-    public Skill(String title, String description, LocalDateTime dateAdded, LocalDateTime updatedAt, LocalDateTime completedAt, String tag, SkillStatus status) {
+
+    public Skill(String title, String description, String tag, SkillStatus status) {
         this.title = title;
         this.description = description;
-        this.dateAdded = dateAdded;
-        this.updatedAt = updatedAt;
-        this.completedAt = completedAt;
         this.tag = tag;
         this.status = status;
+    }
+
+    // Only used for tests
+    Skill(Long id, String title, SkillStatus status, String description, String source,
+          LocalDateTime dateAdded, String tag) {
+        this.id = id;
+        this.title = title;
+        this.status = status;
+        this.description = description;
+        this.source = source;
+        this.dateAdded = dateAdded;
+        this.tag = tag;
+
     }
 
     public Long getId() {
@@ -102,10 +113,6 @@ public class Skill {
 
     public LocalDateTime getDateAdded() {
         return dateAdded;
-    }
-
-    public void setDateAdded(LocalDateTime dateAdded) {
-        this.dateAdded = dateAdded;
     }
 
     public String getTag() {

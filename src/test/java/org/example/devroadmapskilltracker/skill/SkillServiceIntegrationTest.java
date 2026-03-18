@@ -3,6 +3,7 @@ package org.example.devroadmapskilltracker.skill;
 import org.example.devroadmapskilltracker.skill.dto.CreateSkillDTO;
 import org.example.devroadmapskilltracker.skill.dto.SkillDTO;
 import org.example.devroadmapskilltracker.skill.dto.UpdateSkillDTO;
+import org.example.devroadmapskilltracker.skill.exception.ResourceNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +40,6 @@ class SkillServiceIntegrationTest {
                 SkillStatus.BACKLOG,
                 "Testing DB connection",
                 "https://docs.spring.io",
-                LocalDateTime.now(),
                 "Test"
         );
 
@@ -49,6 +49,9 @@ class SkillServiceIntegrationTest {
         // Assert
         assertThat(saved).isNotNull();
         assertThat(saved.title()).isEqualTo("Integration Test Skill");
+
+        assertThat(saved.dateAdded()).isNotNull();
+        assertThat(saved.dateAdded()).isBeforeOrEqualTo(LocalDateTime.now());
     }
 
     @Test
@@ -59,7 +62,6 @@ class SkillServiceIntegrationTest {
                 SkillStatus.BACKLOG,
                 "...",
                 "https://test.io",
-                LocalDateTime.now(),
                 "Test"
         );
         skillService.createSkill(dto);
@@ -73,45 +75,34 @@ class SkillServiceIntegrationTest {
     @Test
     void shouldReturnFilteredSkills_WhenSearchingByTitleAndTag() {
         // Arrange - Skapa flera skills
-        skillService.createSkill(new CreateSkillDTO("Java Spring", SkillStatus.BACKLOG, "...", "https://test.io", LocalDateTime.now(), "Backend"));
-        skillService.createSkill(new CreateSkillDTO("React Frontend", SkillStatus.BACKLOG, "...", "https://test.io", LocalDateTime.now(), "Frontend"));
-        skillService.createSkill(new CreateSkillDTO("Java Hibernate", SkillStatus.BACKLOG, "...", "https://test.io", LocalDateTime.now(), "Database"));
+        skillService.createSkill(new CreateSkillDTO("Java Spring", SkillStatus.BACKLOG, "...", "https://test.io", "Backend"));
+        skillService.createSkill(new CreateSkillDTO("React Frontend", SkillStatus.BACKLOG, "...", "https://test.io", "Frontend"));
+        skillService.createSkill(new CreateSkillDTO("Java Hibernate", SkillStatus.BACKLOG, "...", "https://test.io", "Database"));
 
         // Act 1: Sök på bara titel (Java)
         Page<SkillDTO> titleSearch = skillService.getSkills("Java", null, Pageable.unpaged());
 
-        // Act 2: Sök på bara tagg (Frontend)
+        // Act 2: Sök på bara tag (Frontend)
         Page<SkillDTO> tagSearch = skillService.getSkills(null, "Frontend", Pageable.unpaged());
 
-        // Act 3: Sök på något som inte finns (Phyton)
+        // Act 3: Sök på något som inte finns (Python)
         Page<SkillDTO> titleSearch2 = skillService.getSkills("Python", null, Pageable.unpaged());
 
         // Assert
-        assertThat(titleSearch.getContent()).hasSize(2);
-        assertThat(tagSearch.getContent()).hasSize(1);
+        assertThat(titleSearch.getContent())
+                .hasSize(2)
+                .extracting(SkillDTO::title)
+                        .containsExactlyInAnyOrder("Java Spring", "Java Hibernate");
+
+        assertThat(tagSearch.getContent())
+                .hasSize(1)
+                .extracting(SkillDTO::tag)
+                .containsExactlyInAnyOrder("Frontend");
+
         assertThat(titleSearch2.getContent()).isEmpty();
 
-
     }
 
-    @Test
-    void shouldThrowException_WhenDateIsInTheFuture() {
-        // Arrange
-        CreateSkillDTO futureDto = new CreateSkillDTO(
-                "Future Skill",
-                SkillStatus.BACKLOG,
-                "...",
-                "https://test.io",
-                LocalDateTime.now().plusDays(1),
-                "Tag"
-        );
-
-        // Act & Assert
-        assertThatThrownBy(() -> skillService.createSkill(futureDto))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("Date cannot be in the future.");
-
-    }
 
     @Test
     void shouldUpdateExistingSkill() {
@@ -121,7 +112,6 @@ class SkillServiceIntegrationTest {
                 SkillStatus.BACKLOG,
                 "Original description",
                 "https://test.io",
-                LocalDateTime.now(),
                 "Original Tag"
         );
 
@@ -135,7 +125,6 @@ class SkillServiceIntegrationTest {
                 SkillStatus.IN_PROGRESS,
                 "Updated description",
                 "https://test.io",
-                LocalDateTime.now(),
                 "Updated Tag"
         );
 
@@ -148,7 +137,7 @@ class SkillServiceIntegrationTest {
         assertThat(updatedResult.status()).isEqualTo(SkillStatus.IN_PROGRESS);
         assertThat(updatedResult.description()).isEqualTo("Updated description");
 
-        // Hämta från databsen igen för att kontrollerade att det sparades korrekt
+        // Hämta från databasen igen för att kontrollera att det sparades korrekt
         SkillDTO fetchedFromDB = skillService.getSkillById(id);
         assertThat(fetchedFromDB.title()).isEqualTo("Updated Title");
     }
@@ -162,7 +151,6 @@ class SkillServiceIntegrationTest {
                 SkillStatus.BACKLOG,
                 "Description",
                 "https://test.io",
-                LocalDateTime.now(),
                 "Tag"
         );
 
@@ -181,7 +169,6 @@ class SkillServiceIntegrationTest {
                 SkillStatus.BACKLOG,
                 "Improving ability to create Java Docs",
                 "https://docs.oracle.com",
-                LocalDateTime.now(),
                 "Java"
         );
 
@@ -205,7 +192,6 @@ class SkillServiceIntegrationTest {
                 SkillStatus.IN_PROGRESS,
                 "Original description",
                 "https://test.io",
-                LocalDateTime.now(),
                 "Tag"
         );
 
@@ -220,7 +206,6 @@ class SkillServiceIntegrationTest {
                 SkillStatus.MASTERED,
                 "Original description",
                 "https://test.io",
-                LocalDateTime.now(),
                 "Tag"
         );
 
@@ -244,7 +229,6 @@ class SkillServiceIntegrationTest {
                 SkillStatus.IN_PROGRESS,
                 "Original description",
                 "https://test.io",
-                LocalDateTime.now(),
                 "Tag"
         );
 
@@ -262,7 +246,6 @@ class SkillServiceIntegrationTest {
                 SkillStatus.IN_PROGRESS,
                 "Updated description to trigger auditing",
                 "https://test.io",
-                LocalDateTime.now(),
                 "Tag"
         );
 

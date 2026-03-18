@@ -15,7 +15,6 @@ public class SkillMapper {
         skill.setStatus(dto.status());
         skill.setDescription(dto.description());
         skill.setSource(dto.source());
-        skill.setDateAdded(dto.dateAdded());
         skill.setTag(dto.tag());
         return skill;
     }
@@ -41,7 +40,6 @@ public class SkillMapper {
         skill.setStatus(dto.status());
         skill.setDescription(dto.description());
         skill.setSource(dto.source());
-        skill.setDateAdded(dto.dateAdded());
         skill.setTag(dto.tag());
     }
 

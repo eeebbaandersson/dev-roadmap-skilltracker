@@ -6,7 +6,6 @@ import org.example.devroadmapskilltracker.skill.dto.UpdateSkillDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -24,13 +23,11 @@ class SkillMapperTest {
     @Test
     void shouldMapCreateSkillDTOToEntity() {
         // Arrange
-        LocalDateTime fixedTime = LocalDateTime.now();
         CreateSkillDTO dto = new CreateSkillDTO(
                 "Java Spring Boot",
                 SkillStatus.IN_PROGRESS,
                 "Learning to build REST APIs",
                 "https://spring.io",
-                fixedTime,
                 "Backend"
         );
 
@@ -43,7 +40,7 @@ class SkillMapperTest {
         assertThat(result.getStatus()).isEqualTo(SkillStatus.IN_PROGRESS);
         assertThat(result.getDescription()).isEqualTo("Learning to build REST APIs");
         assertThat(result.getSource()).isEqualTo("https://spring.io");
-        assertThat(result.getDateAdded()).isEqualTo(fixedTime);
+        assertThat(result.getDateAdded()).isNull();
         assertThat(result.getTag()).isEqualTo("Backend");
         assertThat(result.getId()).isNull();
     }
@@ -53,61 +50,59 @@ class SkillMapperTest {
     void shouldMapEntityToSkillDTO() {
         // Arrange
         LocalDateTime addedTime = LocalDateTime.now().minusDays(1);
-        LocalDateTime updatedTime = LocalDateTime.now();
 
-        Skill skill = new Skill();
-        skill.setId(1L);
-        skill.setTitle("Docker Basics");
-        skill.setStatus(SkillStatus.BACKLOG);
-        skill.setDescription("Improving Docker knowledge");
-        skill.setSource("https://www.docker.com");
-        skill.setDateAdded(addedTime);
-        skill.setUpdatedAt(updatedTime);
-        skill.setCompletedAt(null);
-        skill.setTag("DevOps");
+
+        Skill skill = new Skill(
+                1L,
+                "Docker Basics",
+                SkillStatus.BACKLOG,
+                "Improving Docker knowledge",
+                "https://www.docker.com",
+                addedTime,
+                "DevOps"
+
+        );
 
         // Act
         SkillDTO result = skillMapper.toDTO(skill);
 
         // Assert
-        assertThat(result).isNotNull();
         assertThat(result.id()).isEqualTo(1L);
         assertThat(result.title()).isEqualTo("Docker Basics");
         assertThat(result.status()).isEqualTo(SkillStatus.BACKLOG);
         assertThat(result.description()).isEqualTo("Improving Docker knowledge");
         assertThat(result.source()).isEqualTo("https://www.docker.com");
         assertThat(result.dateAdded()).isEqualTo(addedTime);
-        assertThat(result.updatedAt()).isEqualTo(updatedTime);
-        assertThat(result.completedAt()).isNull();
         assertThat(result.tag()).isEqualTo("DevOps");
 
     }
 
-    // Todo: uppdatera för nya tillagda datumfält
+
     // UpdateSkillDTO
     @Test
     void shouldUpdateExistingEntityFromUpdateSkillDTO() {
         // Arrange
         LocalDateTime originalDate = LocalDateTime.now().minusWeeks(1);
 
-        Skill existingSkill = new Skill();
-        existingSkill.setId(5L);
-        existingSkill.setTitle("Old Title");
-        existingSkill.setStatus(SkillStatus.BACKLOG);
-        existingSkill.setDescription("Old description ");
-        existingSkill.setSource("Old Source");
-        existingSkill.setDateAdded(originalDate);
-        existingSkill.setTag("Old Tag");
+        Skill existingSkill = new Skill(
+                5L,
+                "Old Title",
+                SkillStatus.BACKLOG,
+                "Old description",
+                "Old Source",
+                originalDate,
+                "Old Tag"
+        );
+
+
 
         // DTO med ny data
-        LocalDateTime updateTime = LocalDateTime.now();
         UpdateSkillDTO updatedDto = new UpdateSkillDTO(
                 5L,
                 "New Awesome Title",
                 SkillStatus.MASTERED,
                 "Updated description",
                 "Source",
-                updateTime,
                 "Java"
         );
 
@@ -120,7 +115,7 @@ class SkillMapperTest {
         assertThat(existingSkill.getStatus()).isEqualTo(SkillStatus.MASTERED);
         assertThat(existingSkill.getDescription()).isEqualTo("Updated description");
         assertThat(existingSkill.getSource()).isEqualTo("Source");
-        assertThat(existingSkill.getDateAdded()).isEqualTo(updateTime);
+        assertThat(existingSkill.getDateAdded()).isEqualTo(originalDate);
         assertThat(existingSkill.getTag()).isEqualTo("Java");
 
     }
