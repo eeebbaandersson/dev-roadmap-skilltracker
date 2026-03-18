@@ -1,15 +1,15 @@
 package org.example.devroadmapskilltracker.skill.dto;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import org.example.devroadmapskilltracker.skill.SkillStatus;
-
-import java.time.LocalDateTime;
+import org.hibernate.validator.constraints.URL;
 
 public record UpdateSkillDTO (
         Long id,
-        String title,
-        SkillStatus status,
-        String description,
-        String source,
-        LocalDateTime dateAdded,
-        String tag
+        @NotBlank(message = "A title is required")String title,
+        @NotNull(message = "Status is required")SkillStatus status,
+        @NotBlank(message = "A description is required")String description,
+        @URL(message = "Resource must have a valid URL format")String source,
+        @NotBlank(message = "Tag is required")String tag
 ) {}

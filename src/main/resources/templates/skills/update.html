@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <title>DevRoadmap | Add New Skill</title>
     <link rel="stylesheet" th:href="@{/css/create-update.css}">
+    <link rel="stylesheet" th:href="@{/css/decorations.css}">
 </head>
 <body>
+<div th:replace="~{skills/fragments/decorations :: code-background}"></div>
 
 <div class="container">
     <main class="form-card">
@@ -59,7 +61,7 @@
                 </div>
             </div>
 
-            <input type="hidden" th:field="*{dateAdded}">
+            <input type="hidden" th:field="*{id}">
 
             <div class="form-actions">
                 <button type="submit" class="btn-primary">Update Skill</button>
