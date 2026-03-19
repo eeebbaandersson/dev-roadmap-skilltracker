@@ -145,7 +145,14 @@
         </div>
     </section>
 
-</main>
-</body>
+    <div class="load-more-container" th:if="${hasNext}">
+        <a th:href="@{|/skills?size=${currentSize + 9}&title=${titleFilter ?: ''}#roadmap-bottom|}"
+           class="btn-load-more">
+            <span>Show More Skills</span>
+        </a>
+    </div>
 
+</main>
+
+</body>
 </html>

@@ -14,9 +14,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
 @Controller
 @RequestMapping("/skills")
 public class SkillViewController {
@@ -31,22 +28,20 @@ public class SkillViewController {
     @GetMapping
     public String getSkills(
             @RequestParam(required = false) String title,
-            @PageableDefault(size =  12) Pageable pageable,
+            @PageableDefault(size =  3, sort = "title" ) Pageable pageable,
             Model model) {
 
-        // Hämtar datan från service
         Page<SkillDTO> skillPage = skillService.getSkills(title, title, pageable);
 
-        // Fyller på Modellen med allt som Thymeleaf behöver
         model.addAttribute("skills", skillPage.getContent());
-        model.addAttribute("currentPage", skillPage.getNumber());
-        model.addAttribute("totalPages", skillPage.getTotalPages());
-        model.addAttribute("totalItems", skillPage.getTotalElements());
+
+        // Information till "Load-more"-knapp
+        model.addAttribute("currentSize", pageable.getPageSize());
+        model.addAttribute("hasNext", skillPage.hasNext());
 
         // Skicka med sökparametrarna tillbaka så att sökfält inte töms
         model.addAttribute("titleFilter", title);
 
-        // Returnera namnet på HTML-filen (vyn)
         return "skills/home";
     }
 
@@ -58,7 +53,6 @@ public class SkillViewController {
                 SkillStatus.BACKLOG,
                 "",
                 "https://",
-                LocalDateTime.now(),
                 ""
         );
         model.addAttribute("skill", emptyDto);
