@@ -1,5 +1,6 @@
-package org.example.devroadmapskilltracker.skill;
+package org.example.devroadmapskilltracker.skill.controller;
 
+import org.example.devroadmapskilltracker.skill.service.SkillService;
 import org.example.devroadmapskilltracker.skill.dto.CreateSkillDTO;
 import org.example.devroadmapskilltracker.skill.dto.SkillDTO;
 import org.example.devroadmapskilltracker.skill.dto.UpdateSkillDTO;

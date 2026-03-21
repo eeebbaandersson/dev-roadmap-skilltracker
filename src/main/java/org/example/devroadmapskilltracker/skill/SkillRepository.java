@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.domain.Pageable;
 
+import java.util.Optional;
+
 @Repository
 public interface SkillRepository extends JpaRepository<Skill, Long> {
 
@@ -23,5 +25,7 @@ public interface SkillRepository extends JpaRepository<Skill, Long> {
     Page<Skill> findByTagContainingIgnoreCase(String tag,Pageable pageable);
 
     Page<Skill> findByTitleContainingIgnoreCase(String title, Pageable pageable);
+
+    Optional<Skill> findByTitleIgnoreCase(String title);
 
 }

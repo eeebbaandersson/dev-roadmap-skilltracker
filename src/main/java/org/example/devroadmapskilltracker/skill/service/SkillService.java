@@ -1,5 +1,8 @@
-package org.example.devroadmapskilltracker.skill;
+package org.example.devroadmapskilltracker.skill.service;
 
+import org.example.devroadmapskilltracker.skill.Skill;
+import org.example.devroadmapskilltracker.skill.SkillRepository;
+import org.example.devroadmapskilltracker.skill.SkillStatus;
 import org.example.devroadmapskilltracker.skill.dto.CreateSkillDTO;
 import org.example.devroadmapskilltracker.skill.dto.SkillDTO;
 import org.example.devroadmapskilltracker.skill.dto.UpdateSkillDTO;
@@ -54,7 +57,6 @@ public class SkillService {
 
     public SkillDTO createSkill(CreateSkillDTO dto) {
 
-        // Kontroll --> Finns titeln redan?
         if (skillRepository.existsByTitle(dto.title())) {
             throw new IllegalArgumentException("A skill with title: " + dto.title() + " already exists.");
         }
@@ -82,6 +84,12 @@ public class SkillService {
         // Hämta befintlig skill eller kasta exception om den saknas
         Skill existingSkill = skillRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_MESSAGE + id));
+
+        skillRepository.findByTitleIgnoreCase(dto.title()).ifPresent(foundSkill -> {
+            if (!foundSkill.getId().equals(id)) {
+                throw new IllegalArgumentException("A skill with title: " + dto.title() + " already exists.");
+            }
+    });
 
         // Sparar undan den gamla statusen
         SkillStatus oldStatus = existingSkill.getStatus();

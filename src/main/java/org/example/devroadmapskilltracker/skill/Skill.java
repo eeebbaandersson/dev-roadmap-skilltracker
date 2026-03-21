@@ -58,7 +58,7 @@ public class Skill {
         this.status = status;
     }
 
-    // Only used for tests
+    // Constructor used for tests
     Skill(Long id, String title, SkillStatus status, String description, String source,
           LocalDateTime dateAdded, String tag) {
         this.id = id;

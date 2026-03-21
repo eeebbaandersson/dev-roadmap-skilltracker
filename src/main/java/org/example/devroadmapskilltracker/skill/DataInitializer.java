@@ -1,8 +1,5 @@
-package org.example.devroadmapskilltracker;
+package org.example.devroadmapskilltracker.skill;
 
-import org.example.devroadmapskilltracker.skill.SkillRepository;
-import org.example.devroadmapskilltracker.skill.Skill;
-import org.example.devroadmapskilltracker.skill.SkillStatus;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -4,6 +4,7 @@ import org.example.devroadmapskilltracker.skill.dto.CreateSkillDTO;
 import org.example.devroadmapskilltracker.skill.dto.SkillDTO;
 import org.example.devroadmapskilltracker.skill.dto.UpdateSkillDTO;
 import org.example.devroadmapskilltracker.skill.exception.ResourceNotFoundException;
+import org.example.devroadmapskilltracker.skill.service.SkillService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -161,9 +162,13 @@ class SkillServiceIntegrationTest {
 
     }
 
+    // Todo: Addera testfall för deleteSkill - Happy Path?
+    // shouldDeleteChosenSkill
+
+
     @Test
-    void shouldDeleteChosenSkill() {
-        // Arrange -
+    void shouldThrowException_WhenDeletingNonExistingSkill() {
+        // Arrange
         CreateSkillDTO dto = new CreateSkillDTO(
                 "Java Docs",
                 SkillStatus.BACKLOG,
@@ -196,7 +201,6 @@ class SkillServiceIntegrationTest {
         );
 
         SkillDTO savedSkill = skillService.createSkill(skill);
-        // Sparar ID:et
         Long id = savedSkill.id();
 
         // Act
@@ -218,7 +222,6 @@ class SkillServiceIntegrationTest {
         assertThat(result.completedAt()).isNotNull();
         assertThat(result.completedAt()).isCloseTo(LocalDateTime.now(), within(2, ChronoUnit.SECONDS));
     }
-
 
     // Verifiera updatedAT (SPRING BOOTSs JPA Auditing)
     @Test

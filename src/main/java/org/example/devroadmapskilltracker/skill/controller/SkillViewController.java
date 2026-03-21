@@ -1,7 +1,7 @@
-package org.example.devroadmapskilltracker;
+package org.example.devroadmapskilltracker.skill.controller;
 
 import jakarta.validation.Valid;
-import org.example.devroadmapskilltracker.skill.SkillService;
+import org.example.devroadmapskilltracker.skill.service.SkillService;
 import org.example.devroadmapskilltracker.skill.SkillStatus;
 import org.example.devroadmapskilltracker.skill.dto.CreateSkillDTO;
 import org.example.devroadmapskilltracker.skill.dto.SkillDTO;
@@ -40,7 +40,7 @@ public class SkillViewController {
         model.addAttribute("hasNext", skillPage.hasNext());
 
         // Skicka med sökparametrarna tillbaka så att sökfält inte töms
-        model.addAttribute("titleFilter", title);
+        model.addAttribute("titleFilter", title != null ? title : "");
 
         return "skills/home";
     }
@@ -66,11 +66,9 @@ public class SkillViewController {
 
         // Kontroll av valideringsfel
         if (bindingResult.hasErrors()) {
-            // Finns det fel, skicka tillbaka användarn till formuläret
             return "skills/create";
         }
 
-        // Anropa service för att skapa ny skill
         try {
             skillService.createSkill(dto);
         } catch (IllegalArgumentException e) {
@@ -78,7 +76,6 @@ public class SkillViewController {
             return "skills/create";
         }
 
-        // Går allt igenom skicka tillbaka användaren till home-sidan
         return "redirect:/skills";
     }
 
@@ -102,23 +99,19 @@ public class SkillViewController {
         }
 
         try {
-            // Anropa service för att uppdatera
             skillService.updateSkill(id, dto);
         } catch (IllegalArgumentException e) {
             bindingResult.rejectValue("title", "error.title", e.getMessage());
             return "skills/update";
         }
 
-        // Går allt igenom skicka tillbaka användaren till home-sidan
         return "redirect:/skills";
     }
 
     @DeleteMapping("/{id}")
     public String deleteSkill(@PathVariable Long id) {
-        // Anropar service för att ta bort vald skill
-        skillService.deleteSkill(id);
 
-        // Går allt igenom skicka tillbaka användaren till home-sidan
+        skillService.deleteSkill(id);
         return "redirect:/skills";
     }
 

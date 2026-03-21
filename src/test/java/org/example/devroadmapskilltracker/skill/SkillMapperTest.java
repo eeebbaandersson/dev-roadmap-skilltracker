@@ -3,6 +3,7 @@ package org.example.devroadmapskilltracker.skill;
 import org.example.devroadmapskilltracker.skill.dto.CreateSkillDTO;
 import org.example.devroadmapskilltracker.skill.dto.SkillDTO;
 import org.example.devroadmapskilltracker.skill.dto.UpdateSkillDTO;
+import org.example.devroadmapskilltracker.skill.service.SkillMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -50,8 +51,6 @@ class SkillMapperTest {
     void shouldMapEntityToSkillDTO() {
         // Arrange
         LocalDateTime addedTime = LocalDateTime.now().minusDays(1);
-
-
         Skill skill = new Skill(
                 1L,
                 "Docker Basics",
@@ -60,7 +59,6 @@ class SkillMapperTest {
                 "https://www.docker.com",
                 addedTime,
                 "DevOps"
-
         );
 
         // Act
