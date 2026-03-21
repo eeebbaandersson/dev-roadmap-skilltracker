@@ -15,8 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 
 @Service
-// @Transactional(readOnly = true)
-
 public class SkillService {
 
     private static final String NOT_FOUND_MESSAGE = "Error: Could not find skill with id: ";
@@ -51,10 +49,10 @@ public class SkillService {
             result = skillRepository.findByTitleContainingIgnoreCaseOrTagIgnoreCase(title, tag, pageable);
         }
 
-        // Mappa allt till DTO och returnera
         return result.map(skillMapper::toDTO);
     }
 
+    @Transactional
     public SkillDTO createSkill(CreateSkillDTO dto) {
 
         if (skillRepository.existsByTitle(dto.title())) {
@@ -67,6 +65,8 @@ public class SkillService {
         // Om man skapar en skill som redan är mastered, sätt completedAt direkt
         if (skillEntity.getStatus() == SkillStatus.MASTERED) {
             skillEntity.setCompletedAt(LocalDateTime.now());
+        } else {
+            skillEntity.setCompletedAt(null);
         }
 
         // Sparar entiteten i databasen genom repositoryt
@@ -113,6 +113,7 @@ public class SkillService {
         return skillMapper.toDTO(updatedSkill);
     }
 
+    @Transactional
     public void deleteSkill(Long id) {
 
         Skill existingSkill = skillRepository.findById(id)

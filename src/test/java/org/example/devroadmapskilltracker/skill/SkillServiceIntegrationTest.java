@@ -27,7 +27,7 @@ class SkillServiceIntegrationTest {
     @Autowired
     private SkillRepository skillRepository;
 
-    // Rensar all data från DataInitializer innan testen börjar --> Löser tidigare problem med för många träffar i Title/tag-search
+    // Rensar all data från DataInitializer innan testen börjar
     @BeforeEach
     void setUp() {
         skillRepository.deleteAll();
@@ -70,7 +70,7 @@ class SkillServiceIntegrationTest {
         // Act & Assert
         assertThatThrownBy(() -> skillService.createSkill(dto))
                 .isInstanceOf(IllegalArgumentException.class)
-                        .hasMessageContaining("A skill with title: " +dto.title() + " already exists");
+                        .hasMessage("A skill with title: " +dto.title() + " already exists.");
     }
 
     @Test
@@ -80,7 +80,7 @@ class SkillServiceIntegrationTest {
         skillService.createSkill(new CreateSkillDTO("React Frontend", SkillStatus.BACKLOG, "...", "https://test.io", "Frontend"));
         skillService.createSkill(new CreateSkillDTO("Java Hibernate", SkillStatus.BACKLOG, "...", "https://test.io", "Database"));
 
-        // Act 1: Sök på bara titel (Java)
+        // Act 1: Sök på bara title (Java)
         Page<SkillDTO> titleSearch = skillService.getSkills("Java", null, Pageable.unpaged());
 
         // Act 2: Sök på bara tag (Frontend)
@@ -88,6 +88,9 @@ class SkillServiceIntegrationTest {
 
         // Act 3: Sök på något som inte finns (Python)
         Page<SkillDTO> titleSearch2 = skillService.getSkills("Python", null, Pageable.unpaged());
+
+        // Act 4: Sök på både title och tag
+        Page<SkillDTO> combinedSearch = skillService.getSkills("Java", "Frontend", Pageable.unpaged());
 
         // Assert
         assertThat(titleSearch.getContent())
@@ -102,12 +105,12 @@ class SkillServiceIntegrationTest {
 
         assertThat(titleSearch2.getContent()).isEmpty();
 
+        assertThat(combinedSearch.getContent()).hasSize(3);
     }
-
 
     @Test
     void shouldUpdateExistingSkill() {
-        // Arrange -> Skapa/spara en initial skill
+        // Arrange
         CreateSkillDTO createDto = new CreateSkillDTO(
                 "Original Title",
                 SkillStatus.BACKLOG,
@@ -119,7 +122,6 @@ class SkillServiceIntegrationTest {
         SkillDTO savedInitial = skillService.createSkill(createDto);
         Long id = savedInitial.id();
 
-        // Skapa en UpdateSkillDTO med ny data
         UpdateSkillDTO updateDto = new UpdateSkillDTO(
                 id,
                 "Updated Title",
@@ -129,7 +131,7 @@ class SkillServiceIntegrationTest {
                 "Updated Tag"
         );
 
-        // Anropa servicen för att uppdatera
+        // Act
         SkillDTO updatedResult = skillService.updateSkill(id, updateDto);
 
         // Assert
@@ -162,9 +164,30 @@ class SkillServiceIntegrationTest {
 
     }
 
-    // Todo: Addera testfall för deleteSkill - Happy Path?
-    // shouldDeleteChosenSkill
+    @Test
+    void shouldSuccessfullyDeleteChosenSkill() {
+        // Arrange
+        CreateSkillDTO dto = new CreateSkillDTO(
+                "Java Docs",
+                SkillStatus.BACKLOG,
+                "Improving ability to create Java Docs",
+                "https://docs.oracle.com",
+                "Java"
+        );
 
+        SkillDTO saved = skillService.createSkill(dto);
+        Long id = saved.id();
+
+        // Act
+        skillService.deleteSkill(id);
+
+        // Assert
+        assertThat(skillRepository.findById(id)).isEmpty();
+
+        assertThatThrownBy(() -> skillService.getSkillById(id))
+        .isInstanceOf(ResourceNotFoundException.class);
+
+    }
 
     @Test
     void shouldThrowException_WhenDeletingNonExistingSkill() {
@@ -191,7 +214,7 @@ class SkillServiceIntegrationTest {
 
     @Test
     void shouldSetCompletedAt_WhenSkillStatusChangesToMastered() {
-        // Arrange -> Skapa/spara en initial skill
+        // Arrange
         CreateSkillDTO skill = new CreateSkillDTO(
                 "Test",
                 SkillStatus.IN_PROGRESS,
@@ -216,7 +239,7 @@ class SkillServiceIntegrationTest {
         skillService.updateSkill(id, updatedSkill);
 
         // Assert
-        SkillDTO result = skillService.getSkillById(id); // Hämtar ID:et på nytt från databasen
+        SkillDTO result = skillService.getSkillById(id);
 
         assertThat(result.status()).isEqualTo(SkillStatus.MASTERED);
         assertThat(result.completedAt()).isNotNull();
@@ -226,7 +249,7 @@ class SkillServiceIntegrationTest {
     // Verifiera updatedAT (SPRING BOOTSs JPA Auditing)
     @Test
     void shouldUpdateTimestamp_WhenSkillIsModified() throws InterruptedException {
-        // Arrange -> Skapa/spara en initial skill
+        // Arrange
         CreateSkillDTO skill = new CreateSkillDTO(
                 "Maven",
                 SkillStatus.IN_PROGRESS,
@@ -239,7 +262,7 @@ class SkillServiceIntegrationTest {
         Long id = savedSkill.id();
         LocalDateTime timeBeforeUpdate = savedSkill.updatedAt();
 
-        // Simulerar en kort fördröjning
+        // Simulerar fördröjning
         Thread.sleep(100);
 
         // Act
@@ -257,11 +280,51 @@ class SkillServiceIntegrationTest {
         // Assert
         SkillDTO result = skillService.getSkillById(id);
 
-        // Kontroll av att updatedAt är efter den första undansparade tiden, använder AssertJs inbyggda marginal isCloseTo
         assertThat(result.updatedAt()).isCloseTo(LocalDateTime.now(), within(2, ChronoUnit.SECONDS));
         assertThat(result.updatedAt()).isAfterOrEqualTo(timeBeforeUpdate);
-        // Kontroll att beskrivningen uppdaterades
+
         assertThat(result.description()).isEqualTo("Updated description to trigger auditing");
+    }
+
+    @Test
+    void shouldNullifyCompletedAt_WhenStatusChangesFromMasteredToSomethingElse() {
+        // Arrange
+        CreateSkillDTO skill = new CreateSkillDTO("Completed Skill",
+                SkillStatus.MASTERED,
+                "Original description",
+                "https://test.io",
+                "Tag");
+
+        SkillDTO savedSkill = skillService.createSkill(skill);
+        assertThat(savedSkill.completedAt()).isNotNull();
+
+        // Act
+        UpdateSkillDTO updatedSkill = new UpdateSkillDTO(savedSkill.id(),
+                "Completed Skill",
+                SkillStatus.IN_PROGRESS,
+                "Original description",
+                "https://test.io",
+                "Tag");
+        SkillDTO updated = skillService.updateSkill(savedSkill.id(), updatedSkill);
+
+        // Assert
+        assertThat(updated.completedAt()).isNull();
+    }
+
+    @Test
+    void shouldSetCompletedAtDirectly_WhenCreatingMasteredSkill() {
+        // Arrange
+        CreateSkillDTO skill = new CreateSkillDTO("Instant Win",
+                SkillStatus.MASTERED,
+                "Original description",
+                "https://test.io",
+                "Tag");
+        // Act
+        SkillDTO savedSkill = skillService.createSkill(skill);
+
+        // Assert
+        assertThat(savedSkill.completedAt()).isNotNull();
+        assertThat(savedSkill.completedAt()).isCloseTo(LocalDateTime.now(), within(2, ChronoUnit.SECONDS));
     }
 
 }

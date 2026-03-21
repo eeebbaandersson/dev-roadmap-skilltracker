@@ -36,8 +36,6 @@ class SkillViewControllerTest {
     @MockitoBean
     private org.springframework.data.jpa.mapping.JpaMetamodelMappingContext jpaMappingContext;
 
-    // Adderar länk till homepage vid klick på The Dev RoadMap+ addera testfall
-
     @Test
     void getSkills_shouldReturnHomepage() throws Exception {
         Page<SkillDTO> emptyPage = new PageImpl<>(List.of());
@@ -118,6 +116,31 @@ class SkillViewControllerTest {
                 .andExpect(model().attributeHasFieldErrors("skill", "title"));
 
         Mockito.verify(skillService, Mockito.never()).createSkill(any());
+    }
+
+    @Test
+    void createSkill_whenServiceThrowsIllegalArgument_shouldReturnCreateView() throws Exception {
+        String duplicateTitle = "Existing Title";
+        String expectedErrorMessage = "A skill with title: " + duplicateTitle + " already exists.";
+
+        CreateSkillDTO dto = new CreateSkillDTO(
+                "Existing Title",
+                SkillStatus.IN_PROGRESS,
+                "Learning Java fundamentals",
+                "",
+                "Backend");
+
+        Mockito.when(skillService.createSkill(eq(dto)))
+                .thenThrow(new IllegalArgumentException(expectedErrorMessage));
+
+        mockMvc.perform(post("/skills")
+                        .param("title", dto.title())
+                        .param("status", dto.status().name())
+                        .flashAttr("skill", dto))
+                .andExpect(status().isOk())
+                .andExpect(view().name("skills/create"))
+                .andExpect(model().hasErrors())
+                .andExpect(content().string(containsString(expectedErrorMessage)));
     }
 
     // Show updateForm
