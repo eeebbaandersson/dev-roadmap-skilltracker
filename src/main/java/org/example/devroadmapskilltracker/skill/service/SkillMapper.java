@@ -45,3 +45,5 @@ public class SkillMapper {
     }
 
 }
+
+// AI Review Trigger

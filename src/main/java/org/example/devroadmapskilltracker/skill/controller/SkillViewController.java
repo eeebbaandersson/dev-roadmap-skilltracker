@@ -114,6 +114,6 @@ public class SkillViewController {
         skillService.deleteSkill(id);
         return "redirect:/skills";
     }
-
-
 }
+
+// AI Review Trigger

@@ -122,3 +122,5 @@ public class SkillService {
         skillRepository.delete(existingSkill);
     }
 }
+
+// AI Review Trigger
