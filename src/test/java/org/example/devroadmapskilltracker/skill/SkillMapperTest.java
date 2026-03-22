@@ -117,5 +117,6 @@ class SkillMapperTest {
         assertThat(existingSkill.getTag()).isEqualTo("Java");
 
     }
-
 }
+
+// AI Review Trigger

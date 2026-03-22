@@ -45,6 +45,4 @@ public class GlobalExceptionHandler {
         return "skills/error";
 
     }
-
-
 }

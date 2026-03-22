@@ -114,6 +114,4 @@ public class SkillViewController {
         skillService.deleteSkill(id);
         return "redirect:/skills";
     }
-
-
 }

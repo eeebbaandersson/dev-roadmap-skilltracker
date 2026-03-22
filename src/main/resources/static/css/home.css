@@ -230,10 +230,8 @@ header h1 {
 }
 
 .skill-card-link:hover .skill-card{
-
     border-color: rgba(255, 255, 255, 0.2);
     color: #fff;
-    /*transform: translateY(-5px);*/
 
 }
 
@@ -265,7 +263,7 @@ header h1 {
 }
 
 .default-message {
-    color: rgba(255, 255, 255, 0.3);
+    color: rgba(255, 255, 255, 0.4);
     font-style: italic;
     font-size: 0.9rem;
     text-align: center;

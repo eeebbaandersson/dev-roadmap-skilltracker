@@ -35,7 +35,7 @@
 }
 
 .code-js {
-    bottom: 6%;
+    bottom: 5.5%;
     right: 3%;
 }
 
@@ -51,12 +51,18 @@
 }
 
 .code-docker {
-    top: 59%;
+    top: 58%;
     right: 2%;
-    opacity: 0.8;
+    opacity: 0.7;
 }
 
-.code-react {
-    top: 10%;
-    right: -3%;
+.code-ts {
+    top: 15%;
+    right: 3%;
+}
+
+.code-git {
+    bottom: -7%;
+    left: 9%;
+    opacity: 0.9;
 }
