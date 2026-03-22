@@ -10,5 +10,5 @@ public record CreateSkillDTO(
         @NotNull(message = "Status is required") SkillStatus status,
         @NotBlank(message = "A description is required") String description,
         @URL(message = "Resource must have a valid URL format") String source,
-        @NotBlank(message = "Tag is required") String tag
+        @NotBlank(message = "A tag is required") String tag
 ) {}

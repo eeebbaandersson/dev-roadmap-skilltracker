@@ -52,7 +52,7 @@ body {
 form {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Centrerar alla rader vertikalt */
+    align-items: center;
 }
 
 /* Layout för varje rad */
@@ -79,7 +79,7 @@ label {
 
 
 input, select, textarea {
-    background: rgba(255, 255, 255, 0.03); /* Semitransparent */
+    background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 14px;
     padding: 14px 18px;
@@ -87,7 +87,7 @@ input, select, textarea {
     width: 100%;
     font-size: 0.95rem;
     transition: all 0.2s ease;
-    -webkit-appearance: none; /* Tar bort Safari/Chrome standard-styling */
+    -webkit-appearance: none;
     appearance: none;
     box-sizing: border-box;
 }
@@ -109,7 +109,6 @@ textarea {
 }
 
 textarea::-webkit-resizer {
-    /* Gör handtaget osynligt men behåller funktionen */
     display: none;
 }
 
@@ -125,10 +124,10 @@ input:focus, select:focus, textarea:focus {
     outline: none;
 }
 
-/* Error styling */
-/*.is-invalid {*/
-/*    border-color: #ff4d4d !important;*/
-/*}*/
+
+.is-invalid {
+    border-color: #ff4d4d !important;
+}
 
 .error-text {
     color: #ff4d4d;

@@ -45,7 +45,7 @@ public class Skill {
     @Column(name = "completed_at")
     private LocalDateTime completedAt;
 
-    @NotBlank(message = "Tag is required")
+    @NotBlank(message = "A tag is required")
     private String tag; // Ex: "Databas", "Testning", "Ramverk"
 
     public Skill() {}
