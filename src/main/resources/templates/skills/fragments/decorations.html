@@ -37,7 +37,7 @@ public SkillDTO updateSkill(Long id, SkillDTO dto) {
 
     <div class="code-snippet code-js">
             <pre><code>
-async function fetchSkills() {
+ function fetchSkills() {
     try {
         const response = await fetch('/api/v1/skills');
         const data = await response.json();
@@ -45,7 +45,8 @@ async function fetchSkills() {
     } catch (err) {
         console.error("Failed to load roadmap", err);
     }
-};</code></pre>
+};
+            </code></pre>
     </div>
 
     <div class="code-snippet code-css">
@@ -76,16 +77,31 @@ COPY target/*.jar app.jar
 ENTRYPOINT ["java","-jar","/app.jar"]</code></pre>
     </div>
 
-    <div class="code-snippet code-react">
+    <div class="code-snippet code-ts">
     <pre><code>
-const [skills, setSkills] = useState([]);
-useEffect(() => {
-    loadRoadmap().then(data => setSkills(data));
-}, []);</code></pre>
+{
+  "status": "success",
+  "data": {
+    "user": "test_user",
+    "roadmap": "Fullstack Java",
+    "progress": 78.5,
+    "next_milestone": "Mastering Node.js"
+  }
+    </code></pre>
     </div>
+
+
+    <div class="code-snippet code-git">
+    <pre><code>
+    $ git checkout -b feature/ui-refresh
+$ git add src/main/resources/static/css/
+$ git commit -m "feat: enhance background with code snippets"
+$ git push origin feature/ui-refresh
+$ git merge --no-ff feature/ui-refresh
+    </code></pre>
+    </div>
+
 </div>
-
-
 
 </body>
 </html>
