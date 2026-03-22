@@ -115,5 +115,3 @@ public class SkillViewController {
         return "redirect:/skills";
     }
 }
-
-// AI Review Trigger

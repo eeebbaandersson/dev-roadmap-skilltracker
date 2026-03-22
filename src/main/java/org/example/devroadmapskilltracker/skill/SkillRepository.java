@@ -29,5 +29,3 @@ public interface SkillRepository extends JpaRepository<Skill, Long> {
     Optional<Skill> findByTitleIgnoreCase(String title);
 
 }
-
-// AI Review Trigger
