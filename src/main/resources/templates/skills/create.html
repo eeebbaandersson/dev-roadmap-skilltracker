@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <title>DevRoadmap | Add New Skill</title>
     <link rel="stylesheet" th:href="@{/css/create-update.css}">
+    <link rel="stylesheet" th:href="@{/css/decorations.css}">
 </head>
 <body>
+<div th:replace="~{skills/fragments/decorations :: code-background}"></div>
 
 <div class="container">
     <main class="form-card">
@@ -46,7 +48,8 @@
             <div class="form-row">
                 <label for="description">Description</label>
                 <div class="input-container">
-                    <textarea id="description" th:field="*{description}" rows="3" placeholder="Add your description here..."></textarea>
+                    <textarea id="description" th:field="*{description}" rows="3" placeholder="Add your description here..."
+                              th:classappend="${#fields.hasErrors('description')} ? 'is-invalid' : ''"></textarea>
                     <span class="error-text" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></span>
                 </div>
             </div>
@@ -54,12 +57,11 @@
                 <div class="form-row">
                     <label for="tag">Tags</label>
                     <div class="input-container">
-                        <input type="text" id="tag" th:field="*{tag}" placeholder="e.g. Backend">
+                        <input type="text" id="tag" th:field="*{tag}" placeholder="e.g. Backend"
+                               th:classappend="${#fields.hasErrors('tag')} ? 'is-invalid' : ''">
                         <span class="error-text" th:if="${#fields.hasErrors('tag')}" th:errors="*{tag}"></span>
                     </div>
                 </div>
-
-            <input type="hidden" th:field="*{dateAdded}">
 
             <div class="form-actions">
                 <button type="submit" class="btn-primary">Save Skill</button>
