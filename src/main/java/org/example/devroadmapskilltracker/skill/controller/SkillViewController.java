@@ -15,7 +15,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/skills")
 public class SkillViewController {
 
     private final SkillService skillService;
@@ -24,8 +23,13 @@ public class SkillViewController {
         this.skillService = skillService;
     }
 
+    @GetMapping("/")
+    public String goToHomePage() {
+        return "redirect:/skills";
 
-    @GetMapping
+    }
+
+    @GetMapping("/skills")
     public String getSkills(
             @RequestParam(required = false) String title,
             @PageableDefault(size =  3, sort = "title" ) Pageable pageable,
@@ -34,20 +38,16 @@ public class SkillViewController {
         Page<SkillDTO> skillPage = skillService.getSkills(title, title, pageable);
 
         model.addAttribute("skills", skillPage.getContent());
-
-        // Information till "Load-more"-knapp
         model.addAttribute("currentSize", pageable.getPageSize());
         model.addAttribute("hasNext", skillPage.hasNext());
 
-        // Skicka med sökparametrarna tillbaka så att sökfält inte töms
         model.addAttribute("titleFilter", title != null ? title : "");
 
         return "skills/home";
     }
 
-    @GetMapping("/new")
+    @GetMapping("/skills/new")
     public String showCreateForm(Model model) {
-        // Skapar ett tomt skal för formuläret
         CreateSkillDTO emptyDto = new CreateSkillDTO(
                 "",
                 SkillStatus.BACKLOG,
@@ -60,11 +60,10 @@ public class SkillViewController {
 
     }
 
-    @PostMapping
+    @PostMapping("/skills")
     public String createSkill(@Valid @ModelAttribute("skill") CreateSkillDTO dto,
                               BindingResult bindingResult, Model model) {
 
-        // Kontroll av valideringsfel
         if (bindingResult.hasErrors()) {
             return "skills/create";
         }
@@ -79,21 +78,20 @@ public class SkillViewController {
         return "redirect:/skills";
     }
 
-    @GetMapping("/update/{id}")
+    @GetMapping("/skills/update/{id}")
     public String showUpdateForm(@PathVariable Long id, Model model) {
-        // Hämta befintlig data för att fylla i formuläret
+
         SkillDTO skill = skillService.getSkillById(id);
         model.addAttribute("skill", skill);
         return "skills/update";
 
     }
 
-    @PostMapping("/{id}")
+    @PostMapping("/skills/{id}")
     public String updateSkill(@PathVariable Long id,
                               @Valid @ModelAttribute("skill")UpdateSkillDTO dto,
                               BindingResult bindingResult, Model model){
 
-        // Vid misslyckad validering
         if (bindingResult.hasErrors()) {
             return "skills/update";
         }
@@ -108,7 +106,7 @@ public class SkillViewController {
         return "redirect:/skills";
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/skills/{id}")
     public String deleteSkill(@PathVariable Long id) {
 
         skillService.deleteSkill(id);

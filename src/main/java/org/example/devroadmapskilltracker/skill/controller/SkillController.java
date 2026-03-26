@@ -21,7 +21,7 @@ public class SkillController {
 
    }
 
-   // Generell sökning efter skills
+
     @GetMapping
     public Page<SkillDTO> getSkills(
             @RequestParam(required = false) String title,
@@ -30,46 +30,34 @@ public class SkillController {
        return skillService.getSkills(title, tag, pageable);
     }
 
-
-    // Sökning via specifik skill ID
     @GetMapping("/{id}")
     public SkillDTO getSkillById(@PathVariable Long id) {
         return skillService.getSkillById(id);
     }
 
-   // Skapa/lägg till en ny skill
     @PostMapping
     public ResponseEntity<SkillDTO> createSkill(@RequestBody CreateSkillDTO dto) {
-       // Anropar service för att spara
+
        SkillDTO createdSkill = skillService.createSkill(dto);
 
-       // Returnerar svaret med status 201
        return ResponseEntity.status(HttpStatus.CREATED).body(createdSkill);
     }
 
-    // Uppdatera en befintlig skill
     @PutMapping("/{id}")
     public ResponseEntity<SkillDTO> updateSkillById(@PathVariable Long id, @RequestBody UpdateSkillDTO dto) {
 
-       // Anropar service för att uppdatera
        SkillDTO updatedSkill = skillService.updateSkill(id, dto);
 
-        // Returnerar svaret med status 200
        return ResponseEntity.ok(updatedSkill);
     }
 
-    // Ta bort vald skill
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteSkillById(@PathVariable Long id) {
-       // Anropar service för att ta bort vald skill
+
        skillService.deleteSkill(id);
 
-       // Returnerar status 204
        return ResponseEntity.noContent().build();
 
     }
-
-
-
-
 }
