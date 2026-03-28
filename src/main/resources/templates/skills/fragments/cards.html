@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div th:fragment="skill-card(skill)"
+     class="skill-card-wrapper"
+     th:if="${skill != null}"
+     th:data-status="${skill.status.name()}">
+
+    <form th:action="@{/skills/{id}(id=${skill.id})}" th:method="delete" class="delete-form">
+        <button type="submit" class="btn-delete" onclick="return confirm('Delete skill?')"></button>
+    </form>
+
+    <a th:href="@{/skills/update/{id}(id=${skill.id})}" class="skill-card-link">
+        <article class="skill-card">
+            <div class="card-body">
+                <h3 th:text="${skill.title}">Title</h3>
+                <p th:text="${skill.description}">Description</p>
+            </div>
+
+            <div class="card-footer">
+                <span class="tag" th:text="${skill.tag}">Tag</span>
+
+                <span th:if="${skill.completedAt != null}" class="date-label">
+                    Completed: <span th:text="${#temporals.format(skill.completedAt, 'yyyy-MM-dd')}"></span>
+                </span>
+                <span th:if="${skill.completedAt == null && skill.updatedAt != null}" class="date-label">
+                    Updated: <span th:text="${#temporals.format(skill.updatedAt, 'yyyy-MM-dd')}"></span>
+                </span>
+                <span th:if="${skill.completedAt == null && skill.updatedAt == null}" class="date-label">
+                    Added: <span th:text="${#temporals.format(skill.dateAdded, 'yyyy-MM-dd')}"></span>
+                </span>
+            </div>
+        </article>
+    </a>
+</div>
+
+</body>
+</html>

@@ -2,7 +2,6 @@ html {
     scroll-behavior: smooth;
 }
 
-/* Grundinställningar */
 body {
     background-color: #0a0a0a;
     color: #ffffff;
@@ -48,7 +47,6 @@ header h1 {
 }
 
 
-/* Containern som håller sökfältet */
 .search-input {
     background-color: #141414;
     backdrop-filter: blur(10px);
@@ -123,7 +121,6 @@ header h1 {
 }
 
 
-/* Layout zonerna */
 .roadmap-container {
     display: grid;
     grid-template-columns: repeat(3, minmax(250px, 350px)); /* Skapar 3 kolumner */
@@ -133,7 +130,7 @@ header h1 {
     margin: 0 auto;
 }
 
-/* Sektionsstyling (Zonerna) */
+
 .status-zone h2 {
     font-size: 0.9rem;
     text-transform: uppercase;
@@ -144,7 +141,6 @@ header h1 {
     padding-bottom: 1rem;
 }
 
-/* Grid inuti varje zon */
 .bento-grid {
     display: flex;
     flex-direction: column;
@@ -152,7 +148,7 @@ header h1 {
     min-height: 50px;
 }
 
-/* Bento-boxen (Skill Card) */
+
 .skill-card {
     background-color: #141414;
     backdrop-filter: blur(10px);
@@ -181,7 +177,6 @@ header h1 {
     padding-right: 2.5rem;
 }
 
-/* Positionera formen i hörnet */
 .delete-form {
     position: absolute;
     top: 1.2rem;
@@ -192,18 +187,14 @@ header h1 {
     transition: opacity 0.2s ease-in-out;
 }
 
-/* Döljer delete-knapp tills man hovrar över kort*/
 .skill-card-wrapper:hover .delete-form{
     opacity: 1;
 
 }
 
-/* Döljer datum tills man hovrar över kort*/
 .skill-card-wrapper:hover .date-label{
     opacity: 0.6;
 }
-
-
 
 .btn-delete {
     width: 18px;

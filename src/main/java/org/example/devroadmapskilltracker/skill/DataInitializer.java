@@ -36,10 +36,7 @@ public class DataInitializer {
                 ));
 
                 logger.info("🚀Test data has been loaded!");
-
             }
-
-
         };
     }
 }

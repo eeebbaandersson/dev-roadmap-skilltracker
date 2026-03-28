@@ -7,7 +7,9 @@ import org.example.devroadmapskilltracker.skill.dto.CreateSkillDTO;
 import org.example.devroadmapskilltracker.skill.dto.SkillDTO;
 import org.example.devroadmapskilltracker.skill.dto.UpdateSkillDTO;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,14 +38,33 @@ public class SkillViewController {
             Model model) {
 
         Page<SkillDTO> skillPage = skillService.getSkills(title, title, pageable);
+        var allSkills = skillPage.getContent();
 
-        model.addAttribute("skills", skillPage.getContent());
+        model.addAttribute("backlogSkills", allSkills.stream().filter(s -> s.status() == SkillStatus.BACKLOG).toList());
+        model.addAttribute("inProgressSkills", allSkills.stream().filter(s -> s.status() == SkillStatus.IN_PROGRESS).toList());
+        model.addAttribute("masteredSkills", allSkills.stream().filter(s -> s.status() == SkillStatus.MASTERED).toList());
+
+
         model.addAttribute("currentSize", pageable.getPageSize());
         model.addAttribute("hasNext", skillPage.hasNext());
-
         model.addAttribute("titleFilter", title != null ? title : "");
 
         return "skills/home";
+    }
+
+
+    @GetMapping("/skills/load-more")
+    public String loadMoreSkills(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(required = false) String title,
+            Model model) {
+
+        Pageable pageable = PageRequest.of(page, 3, Sort.by("title"));
+        Page<SkillDTO> skillPage = skillService.getSkills(title, title, pageable);
+
+        model.addAttribute("skills", skillPage.getContent());
+
+        return "skills/home :: skill-loader";
     }
 
     @GetMapping("/skills/new")

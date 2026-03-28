@@ -30,38 +30,12 @@
 
     <section class="status-zone">
         <h2>Backlog</h2>
-        <div class="bento-grid">
-            <div class="skill-card-wrapper" th:each="skill : ${skills}" th:if="${skill.status.name() == 'BACKLOG'}">
+        <div class="bento-grid" id="grid-BACKLOG">
+            <th:block th:each="skill : ${backlogSkills}">
+                <div th:replace="~{skills/fragments/cards :: skill-card(${skill})}"></div>
+            </th:block>
 
-                <form th:action="@{/skills/{id}(id=${skill.id})}" th:method="delete" class="delete-form">
-                    <button type="submit" class="btn-delete" onclick="return confirm('Delete skill?')"></button>
-                </form>
-
-                <a th:href="@{/skills/update/{id}(id=${skill.id})}" class="skill-card-link">
-                    <article class="skill-card">
-                        <div class="card-body">
-                            <h3 th:text="${skill.title}">Title</h3>
-                            <p th:text="${skill.description}">Description</p>
-                        </div>
-
-                        <div class="card-footer">
-                            <span class="tag" th:text="${skill.tag}">Tag</span>
-                            <span th:if="${skill.completedAt != null}" class="date-label">
-                                Completed: <span th:text="${#temporals.format(skill.completedAt, 'yyyy-MM-dd')}"></span>
-                            </span>
-
-                            <span th:if="${skill.completedAt == null && skill.updatedAt != null && skill.updatedAt.isAfter(skill.dateAdded.plusSeconds(1))}" class="date-label">
-                                Updated: <span th:text="${#temporals.format(skill.updatedAt, 'yyyy-MM-dd')}"></span>
-                            </span>
-
-                            <span th:if="${skill.completedAt == null && (skill.updatedAt == null || !skill.updatedAt.isAfter(skill.dateAdded.plusSeconds(1)))}" class="date-label">
-                                Added: <span th:text="${#temporals.format(skill.dateAdded, 'yyyy-MM-dd')}"></span>
-                            </span>
-                        </div>
-                    </article>
-                </a>
-            </div>
-            <p th:if="${#lists.isEmpty(skills.?[status.name() == 'BACKLOG'])}" class="default-message">
+            <p th:if="${#lists.isEmpty(backlogSkills)}" class="default-message">
                 No skills in queue yet. What do you want to explore next?
             </p>
         </div>
@@ -69,38 +43,12 @@
 
     <section class="status-zone">
         <h2>In Progress</h2>
-        <div class="bento-grid">
-            <div class="skill-card-wrapper" th:each="skill : ${skills}" th:if="${skill.status.name() == 'IN_PROGRESS'}">
+        <div class="bento-grid" id="grid-IN_PROGRESS">
+            <th:block th:each="skill : ${inProgressSkills}">
+                <div th:replace="~{skills/fragments/cards :: skill-card(${skill})}"></div>
+            </th:block>
 
-                <form th:action="@{/skills/{id}(id=${skill.id})}" th:method="delete" class="delete-form">
-                    <button type="submit" class="btn-delete" onclick="return confirm('Delete skill?')"></button>
-                </form>
-
-                <a th:href="@{/skills/update/{id}(id=${skill.id})}" class="skill-card-link">
-                    <article class="skill-card">
-                        <div class="card-body">
-                            <h3 th:text="${skill.title}">Title</h3>
-                            <p th:text="${skill.description}">Description</p>
-                        </div>
-
-                        <div class="card-footer">
-                            <span class="tag" th:text="${skill.tag}">Tag</span>
-                            <span th:if="${skill.completedAt != null}" class="date-label">
-                                Completed: <span th:text="${#temporals.format(skill.completedAt, 'yyyy-MM-dd')}"></span>
-                            </span>
-
-                            <span th:if="${skill.completedAt == null && skill.updatedAt != null && skill.updatedAt.isAfter(skill.dateAdded.plusSeconds(1))}" class="date-label">
-                                Updated: <span th:text="${#temporals.format(skill.updatedAt, 'yyyy-MM-dd')}"></span>
-                            </span>
-
-                            <span th:if="${skill.completedAt == null && (skill.updatedAt == null || !skill.updatedAt.isAfter(skill.dateAdded.plusSeconds(1)))}" class="date-label">
-                                Added: <span th:text="${#temporals.format(skill.dateAdded, 'yyyy-MM-dd')}"></span>
-                            </span>
-                        </div>
-                    </article>
-                </a>
-            </div>
-            <p th:if="${#lists.isEmpty(skills.?[status.name() == 'IN_PROGRESS'])}" class="default-message">
+            <p th:if="${#lists.isEmpty(inProgressSkills)}" class="default-message">
                 Currently not focusing on any specific skill. Time to pick one?
             </p>
         </div>
@@ -108,51 +56,66 @@
 
     <section class="status-zone">
         <h2>Mastered</h2>
-        <div class="bento-grid">
-            <div class="skill-card-wrapper" th:each="skill : ${skills}" th:if="${skill.status.name() == 'MASTERED'}">
+        <div class="bento-grid" id="grid-MASTERED">
+            <th:block th:each="skill : ${masteredSkills}">
+                <div th:replace="~{skills/fragments/cards :: skill-card(${skill})}"></div>
+            </th:block>
 
-                <form th:action="@{/skills/{id}(id=${skill.id})}" th:method="delete" class="delete-form">
-                    <button type="submit" class="btn-delete" onclick="return confirm('Delete current skill?')"></button>
-                </form>
-
-                <a th:href="@{/skills/update/{id}(id=${skill.id})}" class="skill-card-link">
-                    <article class="skill-card">
-                        <div class="card-body">
-                            <h3 th:text="${skill.title}">Title</h3>
-                            <p th:text="${skill.description}">Description</p>
-                        </div>
-
-                        <div class="card-footer">
-                            <span class="tag" th:text="${skill.tag}">Tag</span>
-                            <span th:if="${skill.completedAt != null}" class="date-label">
-                                Completed: <span th:text="${#temporals.format(skill.completedAt, 'yyyy-MM-dd')}"></span>
-                            </span>
-
-                            <span th:if="${skill.completedAt == null && skill.updatedAt != null && skill.updatedAt.isAfter(skill.dateAdded.plusSeconds(1))}" class="date-label">
-                                Updated: <span th:text="${#temporals.format(skill.updatedAt, 'yyyy-MM-dd')}"></span>
-                            </span>
-
-                            <span th:if="${skill.completedAt == null && (skill.updatedAt == null || !skill.updatedAt.isAfter(skill.dateAdded.plusSeconds(1)))}" class="date-label">
-                                Added: <span th:text="${#temporals.format(skill.dateAdded, 'yyyy-MM-dd')}"></span>
-                            </span>
-                        </div>
-                    </article>
-                </a>
-            </div>
-            <p th:if="${#lists.isEmpty(skills.?[status.name() == 'MASTERED'])}" class="default-message">
+            <p th:if="${#lists.isEmpty(masteredSkills)}" class="default-message">
                 The journey has begun. Mastered skills will appear here.
             </p>
         </div>
     </section>
 
     <div class="load-more-container" th:if="${hasNext}">
-        <a th:href="@{|/skills?size=${currentSize + 9}&title=${titleFilter ?: ''}#roadmap-bottom|}"
-           class="btn-load-more">
+        <button id="load-more-btn"
+                class="btn-load-more"
+                th:data-current-size="${currentSize}"
+                th:data-title="${titleFilter}">
             <span>Show More Skills</span>
-        </a>
+        </button>
+    </div>
+
+    <div th:fragment="skill-loader">
+        <th:block th:each="skill : ${skills}">
+            <div th:replace="~{skills/fragments/cards :: skill-card(${skill})}"></div>
+        </th:block>
     </div>
 
 </main>
-
 </body>
+<script>
+    let currentPage = 1;
+
+    document.getElementById('load-more-btn')?.addEventListener('click', async function() {
+        const btn = this;
+        const title = btn.getAttribute('data-title') || '';
+
+        const response = await fetch(`/skills/load-more?page=${currentPage}&title=${title}`);
+        const html = await response.text();
+
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = html;
+
+        const newCards = tempDiv.querySelectorAll('.skill-card-wrapper');
+
+        if (newCards.length > 0) {
+            newCards.forEach(card => {
+                const status = card.getAttribute('data-status');
+                const targetGrid = document.getElementById(`grid-${status}`);
+                if (targetGrid) {
+                    targetGrid.appendChild(card);
+
+                    const emptyMsg = targetGrid.querySelector('.default-message');
+                    if (emptyMsg) emptyMsg.remove();
+                }
+            });
+            currentPage++;
+        }
+
+        if (newCards.length < 3) {
+            btn.parentElement.style.display = 'none';
+        }
+    });
+</script>
 </html>
