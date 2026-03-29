@@ -118,5 +118,3 @@ class SkillMapperTest {
 
     }
 }
-
-// AI Review Trigger

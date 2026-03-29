@@ -37,11 +37,9 @@ public class SkillService {
     public Page<SkillDTO> getSkills(String title, String tag, Pageable pageable) {
         Page<Skill> result;
 
-        // Om både title och tag saknas, hämta allt
         if ((title == null || title.isBlank()) && (tag == null || tag.isBlank())) {
             result = skillRepository.findAll(pageable);
 
-            // Finns title men tag saknas --> Utför titel-sökning
         } else if (tag == null || tag.isBlank()) {
             result = skillRepository.findByTitleContainingIgnoreCase(title, pageable);
 
@@ -59,21 +57,15 @@ public class SkillService {
             throw new IllegalArgumentException("A skill with title: " + dto.title() + " already exists.");
         }
 
-        // Använder mappern för att skapa entitet från DTO:n
         Skill skillEntity = skillMapper.toEntity(dto);
 
-        // Om man skapar en skill som redan är mastered, sätt completedAt direkt
         if (skillEntity.getStatus() == SkillStatus.MASTERED) {
             skillEntity.setCompletedAt(LocalDateTime.now());
         } else {
             skillEntity.setCompletedAt(null);
         }
 
-        // Sparar entiteten i databasen genom repositoryt
-        // Repositoryt returnerar den sparade entitetn (nu med ett genererart ID)
         Skill savedSkill = skillRepository.save(skillEntity);
-
-        // Mappar tillbaka den sparade entiteten till en SkillDTO och returnera
         return skillMapper.toDTO(savedSkill);
     }
 
@@ -81,7 +73,6 @@ public class SkillService {
     @Transactional
     public SkillDTO updateSkill(Long id, UpdateSkillDTO dto) {
 
-        // Hämta befintlig skill eller kasta exception om den saknas
         Skill existingSkill = skillRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_MESSAGE + id));
 
@@ -91,25 +82,20 @@ public class SkillService {
             }
     });
 
-        // Sparar undan den gamla statusen
         SkillStatus oldStatus = existingSkill.getStatus();
 
-       // Uppdatera fältet på den befintliga entiteten med data från DTO:n
         skillMapper.updateEntityFromDTO(dto, existingSkill);
 
-        // Om statusen sätts till Mastered --> sätt dagens datum
         if (oldStatus != SkillStatus.MASTERED && existingSkill.getStatus() == SkillStatus.MASTERED) {
             existingSkill.setCompletedAt(LocalDateTime.now());
         }
-        // Om statusen ändras från Mastered till något annat --> Nollställ datumet
+
         else if (oldStatus == SkillStatus.MASTERED && existingSkill.getStatus() != SkillStatus.MASTERED) {
             existingSkill.setCompletedAt(null);
         }
 
-        // Sparar ändringarna
         Skill updatedSkill = skillRepository.save(existingSkill);
 
-        // Returnera den uppdaterade versionen som DTO
         return skillMapper.toDTO(updatedSkill);
     }
 

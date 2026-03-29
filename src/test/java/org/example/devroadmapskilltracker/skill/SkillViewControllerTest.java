@@ -37,6 +37,13 @@ class SkillViewControllerTest {
     private org.springframework.data.jpa.mapping.JpaMetamodelMappingContext jpaMappingContext;
 
     @Test
+    void goToHomePage_shouldRedirectToSkills() throws  Exception{
+        mockMvc.perform(get("/"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/skills"));
+    }
+
+    @Test
     void getSkills_shouldReturnHomepage() throws Exception {
         Page<SkillDTO> emptyPage = new PageImpl<>(List.of());
 
@@ -47,7 +54,7 @@ class SkillViewControllerTest {
                         .param("title", ""))
                 .andExpect(status().isOk())
                 .andExpect(view().name("skills/home"))
-                .andExpect(model().attributeExists("skills", "currentSize", "hasNext", "titleFilter"));
+                .andExpect(model().attributeExists( "currentSize", "hasNext", "titleFilter"));
     }
 
     @Test
@@ -71,12 +78,39 @@ class SkillViewControllerTest {
         mockMvc.perform(get("/skills"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("skills/home"))
-                .andExpect(model().attribute("skills", hasSize(1)))
-                .andExpect(model().attribute("skills", hasItem(mockSkill)));
+                .andExpect(model().attributeExists("inProgressSkills"))
+                .andExpect(model().attribute("inProgressSkills", hasItem(mockSkill
+                )))
+                .andExpect(model().attribute("backlogSkills", hasSize(0)))
+                .andExpect(model().attribute("masteredSkills", hasSize(0)))
+                .andExpect(model().attribute("currentSize",3))
+                .andExpect(model().attribute("hasNext",false));
+
 
     }
 
-    // Show createForm
+
+    @Test
+    void loadMoreSkills_shouldReturnFragmentWithSkills() throws Exception {
+        SkillDTO mockSkill = new SkillDTO(2L, "React",
+                SkillStatus.BACKLOG, "Desc", "",
+                null, null, null, "Frontend");
+
+        Page<SkillDTO> skillPage = new PageImpl<>(List.of(mockSkill));
+
+        Mockito.when(skillService.getSkills(any(), any(), any(Pageable.class)))
+                .thenReturn(skillPage);
+
+        mockMvc.perform(get("/skills/load-more")
+                .param("page", "1")
+                .param("title", ""))
+                .andExpect(status().isOk())
+                .andExpect(view().name("skills/home :: skill-loader"))
+                .andExpect(model().attributeExists("skills"))
+                .andExpect(model().attribute("skills", hasSize(1)))
+                .andExpect(model().attribute("skills", hasItem(mockSkill)));
+    }
+
     @Test
     void showCreateForm_shouldReturnCreateViewWithEmptySkillData() throws Exception {
         mockMvc.perform(get("/skills/new"))
@@ -86,7 +120,7 @@ class SkillViewControllerTest {
                 .andExpect(model().attribute("skill", instanceOf(CreateSkillDTO.class)));
     }
 
-    // Create new skill - happy Path
+
     @Test
     void createSkill_withValidData_shouldRedirectToHomepage() throws Exception {
         mockMvc.perform(post("/skills")
@@ -101,7 +135,7 @@ class SkillViewControllerTest {
         Mockito.verify(skillService, Mockito.times(1)).createSkill(any());
     }
 
-    // Create new skill - handle error
+
     @Test
     void createSkill_withInvalidData_shouldReturnCreateView() throws Exception {
         mockMvc.perform(post("/skills")
@@ -143,7 +177,7 @@ class SkillViewControllerTest {
                 .andExpect(content().string(containsString(expectedErrorMessage)));
     }
 
-    // Show updateForm
+
     @Test
     void showUpdateForm_shouldReturnUpdateViewWithExistingSkillData() throws Exception {
         Long skillId = 1L;
@@ -183,7 +217,7 @@ class SkillViewControllerTest {
 
     }
 
-    // Update skill - handle error
+
     @Test
     void updateSkill_withInvalidData_shouldReturnUpdateView() throws Exception {
         Long skillId = 5L;
@@ -246,7 +280,7 @@ class SkillViewControllerTest {
 
     }
 
-    // Delete skill - happy path
+
     @Test
     void deleteSkill_shouldRedirectToHomepage() throws Exception {
         Long skillId = 3L;
@@ -255,10 +289,9 @@ class SkillViewControllerTest {
                 .andExpect(redirectedUrl("/skills"));
 
         Mockito.verify(skillService, Mockito.times(1)).deleteSkill((skillId));
-
     }
 
-    // Delete skill - handle error
+
     @Test
     void deleteSkill_shouldReturnErrorView_WhenSkillNotFoundById() throws Exception {
         Long nonExistentSkillId = 500L;
@@ -272,7 +305,6 @@ class SkillViewControllerTest {
                 .andExpect(view().name("skills/error"))
                 .andExpect(model().attribute("errorTitle", "Skill Not Found"))
                 .andExpect(model().attribute("errorMessage", expectedMessage));
-
     }
 
     @Test
@@ -296,8 +328,5 @@ class SkillViewControllerTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(view().name("skills/error"))
                 .andExpect(model().attribute("errorTitle", "Invalid Input"));
-
     }
 }
-
-// AI Review Trigger

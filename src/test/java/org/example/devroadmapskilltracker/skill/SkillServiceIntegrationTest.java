@@ -19,7 +19,7 @@ import java.time.temporal.ChronoUnit;
 import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
-@Transactional // Gör en auto-rollback av ändringar i databasen efter varje test
+@Transactional
 class SkillServiceIntegrationTest {
 
     @Autowired
@@ -27,7 +27,6 @@ class SkillServiceIntegrationTest {
     @Autowired
     private SkillRepository skillRepository;
 
-    // Rensar all data från DataInitializer innan testen börjar
     @BeforeEach
     void setUp() {
         skillRepository.deleteAll();
@@ -140,7 +139,6 @@ class SkillServiceIntegrationTest {
         assertThat(updatedResult.status()).isEqualTo(SkillStatus.IN_PROGRESS);
         assertThat(updatedResult.description()).isEqualTo("Updated description");
 
-        // Hämta från databasen igen för att kontrollera att det sparades korrekt
         SkillDTO fetchedFromDB = skillService.getSkillById(id);
         assertThat(fetchedFromDB.title()).isEqualTo("Updated Title");
     }
@@ -246,7 +244,7 @@ class SkillServiceIntegrationTest {
         assertThat(result.completedAt()).isCloseTo(LocalDateTime.now(), within(2, ChronoUnit.SECONDS));
     }
 
-    // Verifiera updatedAT (SPRING BOOTSs JPA Auditing)
+
     @Test
     void shouldUpdateTimestamp_WhenSkillIsModified() throws InterruptedException {
         // Arrange
@@ -262,7 +260,6 @@ class SkillServiceIntegrationTest {
         Long id = savedSkill.id();
         LocalDateTime timeBeforeUpdate = savedSkill.updatedAt();
 
-        // Simulerar fördröjning
         Thread.sleep(100);
 
         // Act
@@ -326,7 +323,4 @@ class SkillServiceIntegrationTest {
         assertThat(savedSkill.completedAt()).isNotNull();
         assertThat(savedSkill.completedAt()).isCloseTo(LocalDateTime.now(), within(2, ChronoUnit.SECONDS));
     }
-
 }
-
-// AI Review Trigger
