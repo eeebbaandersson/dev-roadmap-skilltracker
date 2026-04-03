@@ -30,7 +30,7 @@ jobs:
 
         # Compile and run tests
       - name: Compile and run tests
-        run: ./mvnw -B tests
+        run: ./mvnw -B test
 
        # Control code format with spotless
       - name: Run spotless check
