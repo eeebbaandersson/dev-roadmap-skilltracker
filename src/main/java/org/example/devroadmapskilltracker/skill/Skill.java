@@ -20,15 +20,12 @@ public class Skill {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "A title is required")
-    private String title;
+    @NotBlank(message = "A title is required") private String title;
 
-    @NotNull(message = "Status is required")
-    @Enumerated(EnumType.STRING) // Sparar texten (ex. "BACKLOG") istället för en siffra i databasen
+    @NotNull(message = "Status is required") @Enumerated(EnumType.STRING) // Sparar texten (ex. "BACKLOG") istället för en siffra i databasen
     private SkillStatus status;
 
-    @NotBlank(message = "A description is required")
-    @Column(columnDefinition = "TEXT")
+    @NotBlank(message = "A description is required") @Column(columnDefinition = "TEXT")
     private String description;
 
     @URL(message = "Resource must have a valid URL format")
@@ -45,8 +42,7 @@ public class Skill {
     @Column(name = "completed_at")
     private LocalDateTime completedAt;
 
-    @NotBlank(message = "A tag is required")
-    private String tag; // Ex: "Databas", "Testning", "Ramverk"
+    @NotBlank(message = "A tag is required") private String tag; // Ex: "Databas", "Testning", "Ramverk"
 
     public Skill() {}
 
