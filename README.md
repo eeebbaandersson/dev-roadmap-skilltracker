@@ -28,6 +28,7 @@ this project is inspired by the structure of Kanban boards and tools like Trello
 * **Frontend –** Thymeleaf, Vanilla JavaScript, Modern CSS
 * **Database –** PostgreSQL
 * **Data Handling –** Spring Data JPA with Pagination support
+* **DevOps –** Docker, Docker Compose, GitHub Actions (CI/CD)
 
 ## 📋 Requirements
 * **Docker & Docker Desktop –** Recommended (runs everything with one command)
