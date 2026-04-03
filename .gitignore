@@ -13,6 +13,14 @@ target/
 .springBeans
 .sts4-cache
 
+### Docker & OS ###
+.DS_Store
+.docker/
+pgdata/
+mysql_data/
+
+
+
 ### IntelliJ IDEA ###
 .idea
 *.iws
