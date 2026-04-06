@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="foreground-layers" class="foreground-overlay-container">
+
+
+
+    <div class="code-foreground fg-api">
+            <pre><code>
+                SELECT
+        DATE_TRUNC('month', completed_at) as month,
+        COUNT(*) as count
+    FROM skills
+    WHERE status = 'MASTERED'
+    GROUP BY 1
+</code></pre>
+    </div>
+
+    <div class="code-foreground fg-docker-cli">
+            <pre><code>$ docker ps
+CONTAINER ID   STATUS
+7a2b3c4d5e6f   Up 2 hours</code></pre>
+    </div>
+
+
+</div>
+</body>
+</html>

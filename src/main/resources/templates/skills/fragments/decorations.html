@@ -101,7 +101,19 @@ $ git merge --no-ff feature/ui-refresh
     </code></pre>
     </div>
 
-</div>
+    <div class="code-foreground fg-streams">
+            <pre><code>skills.stream()
+    .filter(Skill::isMastered)
+    .map(Skill::toBadge)
+    .toList();</code></pre>
+    </div>
 
+    <div class="code-foreground fg-test"> <pre><code>{
+  "status": "MASTERED",
+  "data_integrity": true
+}</code></pre>
+    </div>
+
+</div>
 </body>
 </html>
