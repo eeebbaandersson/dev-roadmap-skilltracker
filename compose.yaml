@@ -8,4 +8,18 @@ services:
     ports:
       - '5432:5432'
     volumes:
-      - ./pgdata:/var/lib/postgresql/data
+      - skill-data:/var/lib/postgresql
+
+  app:
+    build: .
+    ports:
+      - '8080:8080'
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/skilldatabase
+      - SPRING_DATASOURCE_USERNAME=user
+      - SPRING_DATASOURCE_PASSWORD=secret
+    depends_on:
+      - postgres
+
+volumes:
+  skill-data:
