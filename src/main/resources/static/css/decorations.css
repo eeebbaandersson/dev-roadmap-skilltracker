@@ -1,4 +1,3 @@
-/* Container som täcker hela bakgrunden */
 .code-bg-decoration {
     position: fixed;
     top: 0;
@@ -9,7 +8,7 @@
     overflow: hidden;
     pointer-events: none;
     user-select: none;
-    background-color: #0f0f0f;
+    background-color: #060b0d;
 
 }
 

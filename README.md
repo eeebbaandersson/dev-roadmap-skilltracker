@@ -10,7 +10,7 @@ You encounter new concepts, frameworks and techniques daily, often ending up wit
 
 Starting somewhere can feel like conquering a mountain - and once you do, how do you track your progress?
 
-The Dev RoadMap is my take on solving this. Originally a school assignment,
+**The Dev RoadMap** is my take on solving this. Originally a school assignment,
 this project is inspired by the structure of Kanban boards and tools like Trello, designed specifically for the developer's learning journey.
 
 ⚠️ **Note –** This project is currently a Work in Progress as I continue to refine features and the UI.

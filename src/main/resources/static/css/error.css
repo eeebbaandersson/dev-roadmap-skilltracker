@@ -17,19 +17,21 @@ body {
 }
 
 .error-card {
-    background: #111111;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: rgba(17, 25, 28, 0.8);
+    border: 1px solid rgba(96, 214, 250, 0.2);
     border-radius: 28px;
     padding: 2.5rem;
     max-width: 550px;
     width: 100%;
     margin-top: -50px;
     box-shadow: 0 12px 25px -12px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(12px);
 }
 .error-header {
     text-align: center;
     margin-bottom: 3rem;
-    width: 100%
+    width: 100%;
+    color: #e6f7ff;
 }
 
 .error-header h1 {
@@ -37,11 +39,11 @@ body {
     margin: 0 0 0.5rem 0;
     letter-spacing: 0.01em;
     font-weight: 700;
-    color: #ffffff;
+    color: rgba(96, 214, 250, 0.5);
 }
 
 .error-header p {
-    color: rgba(255, 255, 255, 0.4);
+    color: rgba(96, 214, 250, 0.5);
     font-size: 1rem;
     margin: 0;
 }
