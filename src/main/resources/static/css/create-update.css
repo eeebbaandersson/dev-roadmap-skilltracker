@@ -18,7 +18,7 @@ body {
 
 /* Container för hela kortet */
 .form-card {
-    background: rgba(17, 25, 28, 0.8);
+    background: rgba(10, 20, 25, 0.8);
     border: 1px solid rgba(96, 214, 250, 0.2);
     border-radius: 28px;
     padding: 2.5rem;
