@@ -14,7 +14,7 @@
     <p class="tagline">A visual tool to track and deepen programming knowledge as a developer.</p>
 
     <div class="action-wrapper">
-        <form th:action="@{/skills}" method="get" class="search-input">
+        <form th:action="@{/templates/skills}" method="get" class="search-input">
             <span class="search-icon"></span>
             <input type="text" name="title" th:value="${titleFilter}" placeholder="Filter skills by title or tag...">
         </form>

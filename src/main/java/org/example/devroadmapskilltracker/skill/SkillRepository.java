@@ -10,22 +10,15 @@ import java.util.Optional;
 @Repository
 public interface SkillRepository extends JpaRepository<Skill, Long> {
 
-    // Standardmetoden --> Finns i JpaRepository, deklarerad för tydlighet
-    Page<Skill> findAll(Pageable pageable);
 
-    boolean existsByTitle(String title);
+    Page<Skill> findAllByUserId(Long userid,Pageable pageable);
 
-    // Kombinerad sökning --> Title + Tag
-    Page<Skill> findByTitleContainingIgnoreCaseOrTagIgnoreCase(String title, String tag,Pageable pageable);
+    boolean existsByTitleAndUserId(String title, Long userId);
 
-    // Filtrera på Status
-    Page<Skill> findByStatus(SkillStatus status, Pageable pageable);
+    Page<Skill> findByTitleContainingIgnoreCaseAndUserId(String title, Long userId, Pageable pageable);
 
-    // Specifik tagg-sökning -> För framtida behov?
-    Page<Skill> findByTagContainingIgnoreCase(String tag,Pageable pageable);
+    Page<Skill> findByTitleContainingIgnoreCaseOrTagIgnoreCaseAndUserId(String title, String tag, Long userId, Pageable pageable);
 
-    Page<Skill> findByTitleContainingIgnoreCase(String title, Pageable pageable);
-
-    Optional<Skill> findByTitleIgnoreCase(String title);
+    Optional<Skill> findByTitleIgnoreCaseAndUserId(String title, Long userId);
 
 }

@@ -2,6 +2,7 @@ package org.example.devroadmapskilltracker.skill;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import org.example.devroadmapskilltracker.user.User;
 import org.hibernate.validator.constraints.URL;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -44,14 +45,19 @@ public class Skill {
 
     @NotBlank(message = "A tag is required") private String tag; // Ex: "Databas", "Testning", "Ramverk"
 
+   @ManyToOne(fetch = FetchType.LAZY)
+   @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
     public Skill() {}
 
 
-    public Skill(String title, String description, String tag, SkillStatus status) {
+    public Skill(String title, String description, String tag, SkillStatus status, User user) {
         this.title = title;
         this.description = description;
         this.tag = tag;
         this.status = status;
+        this.user = user;
     }
 
     // Constructor used for tests
@@ -135,15 +141,23 @@ public class Skill {
         this.completedAt = completedAt;
     }
 
+    public User getUser() {
+            return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Skill skill)) return false;
-        return Objects.equals(id, skill.id) && Objects.equals(title, skill.title) && status == skill.status && Objects.equals(description, skill.description) && Objects.equals(source, skill.source) && Objects.equals(dateAdded, skill.dateAdded) && Objects.equals(updatedAt, skill.updatedAt) && Objects.equals(completedAt, skill.completedAt) && Objects.equals(tag, skill.tag);
+        return Objects.equals(id, skill.id) && Objects.equals(title, skill.title) && status == skill.status && Objects.equals(description, skill.description) && Objects.equals(source, skill.source) && Objects.equals(dateAdded, skill.dateAdded) && Objects.equals(updatedAt, skill.updatedAt) && Objects.equals(completedAt, skill.completedAt) && Objects.equals(tag, skill.tag) && Objects.equals(user, skill.user);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, status, description, source, dateAdded, updatedAt, completedAt, tag);
+        return Objects.hash(id, title, status, description, source, dateAdded, updatedAt, completedAt, tag, user);
     }
 
     @Override
@@ -158,6 +172,7 @@ public class Skill {
                 ", updatedAt=" + updatedAt +
                 ", completedAt=" + completedAt +
                 ", tag='" + tag + '\'' +
+                ", user=" + user +
                 '}';
     }
 }
