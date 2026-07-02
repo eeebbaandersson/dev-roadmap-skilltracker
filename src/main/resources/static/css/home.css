@@ -10,6 +10,49 @@ body {
     box-sizing: border-box;
 }
 
+.nav-container {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 100;
+}
+
+
+.nav-link, .logout-form button {
+    background-color: rgba(10, 20, 25, 0.8) !important;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(96, 214, 250, 0.12) !important;
+    color: rgba(96, 214, 250, 0.55);
+    padding: 12px 20px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 0.90rem;
+    font-family: inherit;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    backdrop-filter: blur(10px);
+    transition: all 0.2s ease;
+}
+
+.logout-form {
+    margin: 0;
+}
+
+
+.nav-link:hover, .logout-form button:hover {
+    background: rgba(96, 214, 250, 0.1) !important;
+    border-color: rgba(96, 214, 250, 0.6) !important;
+    color: rgb(150, 230, 255);
+    text-shadow: 0 0 8px rgba(96, 214, 250, 0.6);
+    opacity: 0.9;
+}
+
+
 header {
     display: flex;
     flex-direction: column;
@@ -89,8 +132,8 @@ header h1 {
     width: 17px;
     height: 17px;
     background-color: rgba(96, 214, 250, 0.6);
-    mask: url('../css/assets/search-icon.svg') no-repeat center;
-    -webkit-mask: url('../css/assets/search-icon.svg') no-repeat center;
+    mask: url('../assets/search-icon.svg') no-repeat center;
+    -webkit-mask: url('../assets/search-icon.svg') no-repeat center;
     mask-size: contain;
     filter: none;
     pointer-events: none;
@@ -121,7 +164,6 @@ header h1 {
     white-space: nowrap;
     transition: all 0.3s ease;
     letter-spacing: 0.01em;
-
 }
 
 .btn-add-skill:hover {
@@ -130,7 +172,6 @@ header h1 {
     color: rgb(150, 230, 255);
     text-shadow: 0 0 8px rgba(96, 214, 250, 0.6);
     opacity: 1;
-
 }
 
 .roadmap-container {
@@ -212,8 +253,8 @@ header h1 {
     width: 18px;
     height: 18px;
     background-color: rgba(255, 255, 255, 0.2);
-    mask: url('../css/assets/close-icon.svg') no-repeat center;
-    -webkit-mask: url('../css/assets/close-icon.svg') no-repeat center;
+    mask: url('../assets/close-icon.svg') no-repeat center;
+    -webkit-mask: url('../assets/close-icon.svg') no-repeat center;
     mask-size: contain;
     border: none;
     cursor: pointer;
@@ -247,8 +288,6 @@ header h1 {
     color: rgb(150, 230, 255);
     text-shadow: 0 0 8px rgba(96, 214, 250, 0.5);
     opacity: 0.8;
-
-
 }
 
 .skill-card h3 {
@@ -325,7 +364,7 @@ header h1 {
     border: 1px solid rgba(96, 214, 250, 0.12) !important;
     color: rgba(96, 214, 250, 0.55);
     font-size: 0.95rem;
-    padding: 12px 35px;
+    padding: 12px 30px;
     border-radius: 12px;
     text-decoration: none;
     transition: all 0.3s ease;
@@ -339,5 +378,4 @@ header h1 {
     color: rgb(150, 230, 255);
     text-shadow: 0 0 8px rgba(96, 214, 250, 0.6);
     opacity: 1;
-
 }

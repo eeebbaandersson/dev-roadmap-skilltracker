@@ -35,7 +35,7 @@ public class DataInitializer {
 
                 User testUser = new User();
                 testUser.setFullName("Test Developer");
-                testUser.setUsername("devTest");
+                testUser.setUsername("test");
                 testUser.setPassword(passwordEncoder.encode("secret"));
 
                 User savedUser = userRepository.save(testUser);

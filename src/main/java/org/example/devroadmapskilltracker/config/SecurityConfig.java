@@ -24,12 +24,14 @@ public class SecurityConfig {
    }
 
    @Bean
-  public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+  public SecurityFilterChain securityFilterChain(HttpSecurity http) {
        http.csrf(csrf -> csrf.disable())
                .authorizeHttpRequests(auth -> auth
+                       .requestMatchers("/login", "/signup", "/static/**", "/css/**", "/assets").permitAll()
                        .anyRequest().authenticated())
 
-               .formLogin(Customizer.withDefaults())
+               .formLogin(form -> form
+                       .loginPage("/login").permitAll())
                .httpBasic(Customizer.withDefaults());
 
        return http.build();
