@@ -46,7 +46,6 @@ body.auth-body {
     width: 100%;
     max-width: 420px;
     box-shadow: 0 12px 25px -12px rgba(0, 0, 0, 0.5);
-
 }
 
 header {
@@ -54,9 +53,9 @@ header {
     margin-bottom: 30px;
 }
 
-header p { color: var(--color-text-dim); font-size: 14px; margin-top: 5px; }
+header p { color: var(--color-text-dim); font-size: 14px; margin-top: -5px; }
 
-.form-group { margin-bottom: 20px; }
+.form-group { margin-bottom: 25px; }
 
 .form-group label {
     display: block;
