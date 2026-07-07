@@ -2,9 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Sign Up</title>
-    <link rel="stylesheet" href="../static/css/login-signup.css" th:href="@{/css/login-signup.css}">
-    <link rel="stylesheet" href="../static/css/decorations.css" th:href="@{/css/decorations.css}">
+    <title>DevRoadmap | Sign In</title>
+    <link rel="stylesheet" href="../../static/css/login-signup.css" th:href="@{/css/login-signup.css}">
+    <link rel="stylesheet" href="../../static/css/decorations.css" th:href="@{/css/decorations.css}">
 
 
 </head>
@@ -15,7 +15,8 @@
 
 <div class="container">
     <header>
-        <h1>Create an account</h1>
+        <h1>Welcome Back!</h1>
+        <p>Future tagline...</p>
 
     </header>
 
@@ -30,22 +31,22 @@
     <form th:action="@{/login}" method="post">
         <div class="form-group">
             <label for="username">Username</label>
-            <input id="username" type="text" name="username" placeholder="Select username" required autofocus>
+            <input id="username" type="text" name="username" placeholder="Enter your username" required autofocus>
         </div>
 
         <div class="form-group">
             <label for="password">Password</label>
-            <input id="password" type="password" name="password" placeholder="Select password" required>
+            <input id="password" type="password" name="password" placeholder="Enter your password" required>
         </div>
 
-        <button type="submit" class="btn-submit">Sign Up</button>
+        <button type="submit" class="btn-submit">Sign In</button>
 
         <p class="signup-link">
-            Already have an account? <a th:href="@{/login}">Login</a>
+            Don't have an account? <a th:href="@{/signup}">Sign up</a>
         </p>
-
     </form>
 
+    <span class="rocket-icon"></span>
 </div>
 
 </body>

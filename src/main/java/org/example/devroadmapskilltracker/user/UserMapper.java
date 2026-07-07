@@ -23,8 +23,8 @@ public class UserMapper {
         if (dto == null) return null;
 
         User user = new User();
-        user.setFullName(dto.FullName());
-        user.setUsername(dto.UserName());
+        user.setFullName(dto.fullName());
+        user.setUsername(dto.username());
         user.setPassword(dto.password());
         return user;
     }

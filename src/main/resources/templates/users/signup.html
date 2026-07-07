@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DevRoadmap | Sign Up</title>
+    <link rel="stylesheet" href="../../static/css/login-signup.css" th:href="@{/css/login-signup.css}">
+    <link rel="stylesheet" href="../../static/css/decorations.css" th:href="@{/css/decorations.css}">
+
+
+</head>
+<body class="auth-body">
+<div th:replace="~{skills/fragments/decorations :: code-background}"></div>
+
+<div th:replace="~{skills/fragments/foreground-code :: foreground-layers}"></div>
+
+<div class="container">
+    <header>
+        <h1>Create an account</h1>
+        <p>Future tagline...</p>
+
+    </header>
+
+    <form th:action="@{/createAccount}" th:object="${user}" method="post">
+        <div class="form-group">
+            <label for="fullName">Full Name</label>
+            <input id="fullName" type="text" th:field="*{fullName}" placeholder="Enter your full name" required autofocus>
+            <div th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}" class="alert-error" style="margin-top: 5px; padding: 8px;"></div>
+        </div>
+
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input id="username" type="text" th:field="*{username}" placeholder="Select username" required>
+            <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="alert-error" style="margin-top: 5px; padding: 8px;"></div>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input id="password" type="password" th:field="*{password}" placeholder="Select password" required>
+            <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="alert-error" style="margin-top: 5px; padding: 8px;"></div>
+        </div>
+
+        <button type="submit" class="btn-submit">Sign Up</button>
+
+        <p class="signup-link">
+            Already have an account? <a th:href="@{/login}">Login</a>
+        </p>
+    </form>
+
+    <span class="rocket-icon"></span>
+
+</div>
+
+</body>
+</html>

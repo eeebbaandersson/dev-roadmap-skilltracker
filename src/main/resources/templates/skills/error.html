@@ -12,12 +12,12 @@
 
 <div class="container">
     <div class="error-card">
-        <header class="">
-            <div>Oops!</div>
+        <header class="error-header">
+            <h2>Oops!</h2>
             <h1 th:text="${errorTitle}">Something went wrong</h1>
             <p th:text="${errorMessage}">An unexpected error occurred...</p>
 
-            <a th:href="@{/templates/skills}" class="btn-back">Back to RoadMap</a>
+            <a th:href="@{/skills}" class="btn-back">Go Back To RoadMap</a>
         </header>
     </div>
 </div>

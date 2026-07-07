@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>DevRoadmap | Add New Skill</title>
+    <title>DevRoadmap | Update Skill</title>
     <link rel="stylesheet" th:href="@{/css/create-update.css}">
     <link rel="stylesheet" th:href="@{/css/decorations.css}">
 </head>
@@ -67,7 +67,7 @@
 
             <div class="form-actions">
                 <button type="submit" class="btn-primary">Update Skill</button>
-                <a th:href="@{/templates/skills}" class="btn-secondary">Cancel</a>
+                <a th:href="@{/skills}" class="btn-secondary">Cancel</a>
 
                 <button type="submit" form="delete-form" class="btn-delete-action"
                         onclick="return confirm('Are you sure you want to remove current skill?')">

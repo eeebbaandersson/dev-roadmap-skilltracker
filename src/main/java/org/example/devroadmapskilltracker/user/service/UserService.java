@@ -2,6 +2,7 @@ package org.example.devroadmapskilltracker.user.service;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
+import org.example.devroadmapskilltracker.skill.SkillRepository;
 import org.example.devroadmapskilltracker.user.User;
 import org.example.devroadmapskilltracker.user.UserMapper;
 import org.example.devroadmapskilltracker.user.UserRepository;
@@ -17,14 +18,16 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final SkillRepository skillRepository;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
 
 
     private static final String USER_NOT_FOUND = "User not found";
 
-    public UserService(UserRepository userRepository, UserMapper userMapper,  PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, SkillRepository skillRepository, UserMapper userMapper,  PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.skillRepository = skillRepository;
         this.userMapper = userMapper;
         this.passwordEncoder = passwordEncoder;
     }
@@ -33,8 +36,8 @@ public class UserService {
     public UserDTO createUserAccount(CreateUserDTO dto) {
 
       // Check to see if a username is already occupied
-     if (userRepository.existsByUsername(dto.UserName())) {
-         throw new IllegalArgumentException("A user with username: " + dto.UserName() + " already exists.");
+     if (userRepository.existsByUsername(dto.username())) {
+         throw new IllegalArgumentException("A user with username: " + dto.username() + " already exists.");
      }
 
         User newUser = userMapper.toEntity(dto);
@@ -66,7 +69,15 @@ public class UserService {
         User existingUser  = userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException(USER_NOT_FOUND));
 
+        skillRepository.deleteByUserId(userId);
+
         userRepository.delete(existingUser);
-        log.info("Deleted user with id {}", userId);
+        log.info("Deleted user with id {} and all their associated skills", userId);
+    }
+
+    public UserDTO getLoggedInUser(String username) {
+       User user = userRepository.findByUsername(username)
+               .orElseThrow(() -> new EntityNotFoundException(USER_NOT_FOUND + username));
+       return userMapper.toDTO(user);
     }
 }

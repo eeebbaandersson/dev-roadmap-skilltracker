@@ -17,11 +17,11 @@ body {
 }
 
 .error-card {
-    background: rgba(17, 25, 28, 0.8);
+    background: rgba(10, 20, 25, 0.8);
     border: 1px solid rgba(96, 214, 250, 0.2);
     border-radius: 28px;
     padding: 2.5rem;
-    max-width: 550px;
+    max-width: 500px;
     width: 100%;
     margin-top: -50px;
     box-shadow: 0 12px 25px -12px rgba(0, 0, 0, 0.5);
@@ -36,14 +36,41 @@ body {
 
 .error-header h1 {
     font-size: 2.2rem;
-    margin: 0 0 0.5rem 0;
     letter-spacing: 0.01em;
     font-weight: 700;
-    color: rgba(96, 214, 250, 0.5);
+    color: #e6f7ff;
+    margin-top: -10px;
+    margin-bottom: 20px;
 }
 
 .error-header p {
     color: rgba(96, 214, 250, 0.5);
     font-size: 1rem;
-    margin: 0;
+}
+
+.btn-back {
+    display: inline-block;
+    margin-top: 0.5rem;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(96, 214, 250, 0.12);
+    color: rgba(96, 214, 250, 0.55);
+    padding: 12px 20px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 0.90rem;
+    font-family: inherit;
+    text-decoration: none;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(10px);
+    transition: all 0.2s ease;
+    margin-bottom: -20px;
+}
+
+.btn-back:hover {
+    background: rgba(96, 214, 250, 0.1) !important;
+    border-color: rgba(96, 214, 250, 0.6) !important;
+    color: rgb(150, 230, 255);
+    text-shadow: 0 0 8px rgba(96, 214, 250, 0.6);
+    opacity: 0.8;
 }
