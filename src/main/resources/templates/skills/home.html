@@ -3,14 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <title>DevRoadmap | Home</title>
-    <link rel="stylesheet" th:href="@{/css/home.css}">
-    <link rel="stylesheet" th:href="@{/css/decorations.css}">
+
+    <link rel="stylesheet" href="../../static/css/home.css" th:href="@{/css/home.css}">
+    <link rel="stylesheet" href="../../static/css/decorations.css" th:href="@{/css/decorations.css}">
 </head>
 <body>
 <div th:replace="~{skills/fragments/decorations :: code-background}"></div>
 
+<div class="nav-container">
+    <a th:href="@{/account}" class="nav-link">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+        My Account
+    </a>
+
+    <form th:action="@{/logout}" method="post" class="logout-form">
+        <button type="submit">Sign Out</button>
+    </form>
+</div>
+
 <header>
-    <h1>🚀 💻 The Dev RoadMap</h1>
+    <h1 class="title-with-icon">
+        <span class="header-rocket-icon"></span>
+        The Dev RoadMap
+    </h1>
+
     <p class="tagline">A visual tool to track and deepen programming knowledge as a developer.</p>
 
     <div class="action-wrapper">

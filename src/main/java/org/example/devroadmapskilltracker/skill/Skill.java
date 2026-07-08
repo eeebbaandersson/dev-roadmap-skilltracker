@@ -2,6 +2,7 @@ package org.example.devroadmapskilltracker.skill;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import org.example.devroadmapskilltracker.user.User;
 import org.hibernate.validator.constraints.URL;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -22,7 +23,7 @@ public class Skill {
 
     @NotBlank(message = "A title is required") private String title;
 
-    @NotNull(message = "Status is required") @Enumerated(EnumType.STRING) // Sparar texten (ex. "BACKLOG") istället för en siffra i databasen
+    @NotNull(message = "Status is required") @Enumerated(EnumType.STRING)
     private SkillStatus status;
 
     @NotBlank(message = "A description is required") @Column(columnDefinition = "TEXT")
@@ -42,16 +43,21 @@ public class Skill {
     @Column(name = "completed_at")
     private LocalDateTime completedAt;
 
-    @NotBlank(message = "A tag is required") private String tag; // Ex: "Databas", "Testning", "Ramverk"
+    @NotBlank(message = "A tag is required") private String tag;
+
+   @ManyToOne(fetch = FetchType.LAZY)
+   @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     public Skill() {}
 
 
-    public Skill(String title, String description, String tag, SkillStatus status) {
+    public Skill(String title, String description, String tag, SkillStatus status, User user) {
         this.title = title;
         this.description = description;
         this.tag = tag;
         this.status = status;
+        this.user = user;
     }
 
     // Constructor used for tests
@@ -135,6 +141,14 @@ public class Skill {
         this.completedAt = completedAt;
     }
 
+    public User getUser() {
+            return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Skill skill)) return false;
@@ -158,6 +172,7 @@ public class Skill {
                 ", updatedAt=" + updatedAt +
                 ", completedAt=" + completedAt +
                 ", tag='" + tag + '\'' +
+                ", user=" + user +
                 '}';
     }
 }

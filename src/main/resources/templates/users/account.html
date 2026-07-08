@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DevRoadmap | My Account</title>
+    <link rel="stylesheet" href="../../static/css/login-signup.css" th:href="@{/css/login-signup.css}">
+    <link rel="stylesheet" href="../../static/css/decorations.css" th:href="@{/css/decorations.css}">
+</head>
+<body class="auth-body">
+
+<div th:replace="~{skills/fragments/decorations :: code-background}"></div>
+<div th:replace="~{skills/fragments/foreground-code :: foreground-layers}"></div>
+
+<div class="container">
+    <header style="margin-bottom: 15px;">
+        <h1>My Account</h1>
+        <p>Manage your profile settings</p>
+    </header>
+
+    <div th:if="${param.success}" class="alert-success" style="margin-bottom: 15px; padding: 10px;">
+        Your profile has been updated successfully!
+    </div>
+
+    <form th:action="@{/account/update}" th:object="${user}" method="post" style="margin-top: 10px;">
+
+        <div class="form-group">
+            <label for="fullName">Full Name</label>
+            <input id="fullName" type="text" th:field="*{fullName}" placeholder="Enter your full name" required autofocus>
+            <div th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}" class="alert-error" style="margin-top: 5px; padding: 8px;"></div>
+        </div>
+
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input id="username" type="text" th:field="*{username}" readonly style="opacity: 0.7; cursor: not-allowed;">
+            <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="alert-error" style="margin-top: 5px; padding: 8px;"></div>
+        </div>
+
+        <div class="form-group">
+            <label for="password">New Password (leave blank to keep current)</label>
+            <input id="password" type="password" th:field="*{password}" placeholder="Enter new password">
+            <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="alert-error" style="margin-top: 5px; padding: 8px;"></div>
+        </div>
+
+        <button type="submit" class="btn-submit">Save Changes</button>
+    </form>
+
+    <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 30px 0;">
+
+    <div class="danger-zone" style="text-align: center;">
+        <p style="color: rgba(229, 115, 115, 0.6); font-size: 0.9rem; margin-bottom: 15px;">
+            Warning: This action cannot be undone.
+        </p>
+
+        <form th:action="@{/account/delete}" th:method="delete"
+              onsubmit="return confirm('Are you absolutely sure you want to delete your account? All data will be lost.');">
+
+            <button type="submit" class="btn-submit btn-delete-action" style="max-width: 200px; margin: 0 auto;">
+                Delete Account
+            </button>
+        </form>
+    </div>
+
+    <p class="signup-link" style="margin-top: 20px;">
+        <a th:href="@{/skills}">← Back to RoadMap</a>
+    </p>
+
+    <span class="rocket-icon"></span>
+</div>
+
+</body>
+</html>

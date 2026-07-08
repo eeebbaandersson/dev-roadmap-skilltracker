@@ -16,7 +16,7 @@ body {
     padding: 2rem;
 }
 
-/* Container för hela kortet */
+
 .form-card {
     background: rgba(10, 20, 25, 0.8);
     border: 1px solid rgba(96, 214, 250, 0.2);
@@ -41,11 +41,11 @@ body {
     margin: 0 0 0.5rem 0;
     letter-spacing: 0.01em;
     font-weight: 700;
-    color: rgba(96, 214, 250, 0.5);
+    color: #e6f7ff;
 }
 
 .form-header p {
-    color: rgba(96, 214, 250, 0.5);
+    color: rgba(180, 230, 250, 0.6);
     font-size: 1rem;
     margin: 0;
 }

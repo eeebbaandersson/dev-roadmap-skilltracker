@@ -5,12 +5,15 @@ import org.example.devroadmapskilltracker.skill.dto.SkillDTO;
 import org.example.devroadmapskilltracker.skill.dto.UpdateSkillDTO;
 import org.example.devroadmapskilltracker.skill.exception.ResourceNotFoundException;
 import org.example.devroadmapskilltracker.skill.service.SkillService;
+import org.example.devroadmapskilltracker.user.User;
+import org.example.devroadmapskilltracker.user.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,16 +25,26 @@ import static org.assertj.core.api.Assertions.*;
 @SpringBootTest
 @Transactional
 @ActiveProfiles("test")
+@WithMockUser(username = "testuser", roles = "USER")
 class SkillServiceIntegrationTest {
 
     @Autowired
     private SkillService skillService;
     @Autowired
     private SkillRepository skillRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @BeforeEach
     void setUp() {
         skillRepository.deleteAll();
+        userRepository.deleteAll();
+
+        User mockUser = new User();
+        mockUser.setUsername("testuser");
+        mockUser.setFullName("Test User");
+        mockUser.setPassword("password");
+        userRepository.save(mockUser);
     }
 
     @Test

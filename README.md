@@ -19,12 +19,13 @@ this project is inspired by the structure of Kanban boards and tools like Trello
 
 ## ✨ Key Features
 * **Visual Kanban Workflow –** Organize your learning in BACKLOG, IN PROGRESS, and MASTERED.
+* **Identity & Account Management (New!) –** Secure user registration, authentication, and personalized profile management.
 * **Intuitive Skill Tracking –** Easily add new topics and document your journey towards mastery.
 * **Smart Filtering & Pagination –** Quickly find what you need with real-time filtering and dynamic "Load More" functionality.
 * **Resource Management –** Keep essential documentation, source links and notes attached to every skill for quick reference.
 
 ## 🛠️ Tech Stack
-* **Backend –** Java 25 & Spring Boot 4.0
+* **Backend –** Java 25, Spring Boot 4.0, and Spring Security (Authentication & BCrypt Hashing)
 * **Frontend –** Thymeleaf, Vanilla JavaScript, Modern CSS
 * **Database –** PostgreSQL
 * **Data Handling –** Spring Data JPA with Pagination support
@@ -36,11 +37,13 @@ this project is inspired by the structure of Kanban boards and tools like Trello
 
 ## 🗺️ Upcoming Features:
 * **Drag & Drop –** Move skill cards between columns for a more dynamic and interactive experience.
-* **User Authentication –** Personal accounts to secure your data and enable private roadmaps.
 
 
 ## 🚀 Quick Start
 1. Clone the repository.
 2. Run `docker-compose up`.
 3. Open `http://localhost:8080` in your browser.
-4. **Explore –** The app comes pre-loaded with sample data to help you get started right away!
+4. **Log in or Sign up –** You can create a new account instantly, or use the pre-loaded developer profile:
+    * **Username:** `test`
+    * **Password:** `secret`
+5. Let your journey begin!
