@@ -54,6 +54,10 @@ public class UserService {
         User existingUser = userRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(USER_NOT_FOUND));
 
+        if (!existingUser.getUsername().equals(dto.username()) && userRepository.existsByUsername(dto.username())) {
+            throw new IllegalArgumentException("A user with username: " + dto.username() + " already exists.");
+        }
+
         userMapper.updateEntityFromDTO(dto, existingUser);
 
         if (dto.password() != null && !dto.password().isBlank()) {

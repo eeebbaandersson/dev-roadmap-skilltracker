@@ -159,8 +159,6 @@ header p { color: var(--color-text-dim); font-size: 14px; margin-top: -10px; }
 
 .rocket-icon {
     display: block;
-    justify-content: center;
-    align-items: center;
     width: 30px;
     height: 30px;
     margin: 25px auto -10px auto;

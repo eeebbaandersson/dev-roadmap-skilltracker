@@ -21,7 +21,7 @@
         Your profile has been updated successfully!
     </div>
 
-    <form th:action="@{/account/update/{id}(id=${user.id})}" th:object="${user}" method="post" style="margin-top: 10px;">
+    <form th:action="@{/account/update}" th:object="${user}" method="post" style="margin-top: 10px;">
 
         <div class="form-group">
             <label for="fullName">Full Name</label>
@@ -51,7 +51,7 @@
             Warning: This action cannot be undone.
         </p>
 
-        <form th:action="@{/account/delete/{id}(id=${user.id})}" th:method="delete"
+        <form th:action="@{/account/delete}" th:method="delete"
               onsubmit="return confirm('Are you absolutely sure you want to delete your account? All data will be lost.');">
 
             <button type="submit" class="btn-submit btn-delete-action" style="max-width: 200px; margin: 0 auto;">

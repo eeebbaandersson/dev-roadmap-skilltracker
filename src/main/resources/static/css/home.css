@@ -36,7 +36,6 @@ body {
     display: flex;
     align-items: center;
     gap: 8px;
-    backdrop-filter: blur(10px);
     transition: all 0.2s ease;
 }
 
@@ -163,7 +162,6 @@ header h1 {
     box-shadow: none;
     background-color: rgba(96, 214, 250, 0.9);
 }
-
 
 .btn-add-skill{
     margin-top: 0;

@@ -38,18 +38,19 @@ public class UserController {
         return "users/account";
     }
 
-    @PostMapping("/update/{id}")
-    public String updateAccount(@PathVariable Long id,
-                                @Valid @ModelAttribute("user")UpdateUserDTO dto,
+    @PostMapping("/update")
+    public String updateAccount(@Valid @ModelAttribute("user")UpdateUserDTO dto,
                                 BindingResult bindingResult,
-                                Model model) {
+                                Model model,
+                                Principal principal) {
 
         if (bindingResult.hasErrors()) {
             return "users/account";
         }
 
         try {
-            userService.updateUserAccount(id, dto);
+            UserDTO currentUser = userService.getLoggedInUser(principal.getName());
+            userService.updateUserAccount(currentUser.id(), dto);
         } catch (Exception ex) {
             bindingResult.rejectValue("username", "error.user", "Could not update account.");
             return "users/account";
@@ -59,9 +60,12 @@ public class UserController {
     }
 
 
-    @DeleteMapping("/delete/{id}")
-    public String deleteAccount(@PathVariable Long id, HttpServletRequest request) throws ServletException {
-        userService.deleteUserAccount(id);
+    @DeleteMapping("/delete")
+    public String deleteAccount( HttpServletRequest request, Principal principal) throws ServletException {
+
+        UserDTO currentUser = userService.getLoggedInUser(principal.getName());
+        userService.deleteUserAccount(currentUser.id());
+
         request.logout();
         return "redirect:/login?deleted";
     }

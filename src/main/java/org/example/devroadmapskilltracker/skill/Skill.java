@@ -23,7 +23,7 @@ public class Skill {
 
     @NotBlank(message = "A title is required") private String title;
 
-    @NotNull(message = "Status is required") @Enumerated(EnumType.STRING) // Sparar texten (ex. "BACKLOG") istället för en siffra i databasen
+    @NotNull(message = "Status is required") @Enumerated(EnumType.STRING)
     private SkillStatus status;
 
     @NotBlank(message = "A description is required") @Column(columnDefinition = "TEXT")
@@ -43,7 +43,7 @@ public class Skill {
     @Column(name = "completed_at")
     private LocalDateTime completedAt;
 
-    @NotBlank(message = "A tag is required") private String tag; // Ex: "Databas", "Testning", "Ramverk"
+    @NotBlank(message = "A tag is required") private String tag;
 
    @ManyToOne(fetch = FetchType.LAZY)
    @JoinColumn(name = "user_id", nullable = false)
@@ -152,12 +152,12 @@ public class Skill {
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Skill skill)) return false;
-        return Objects.equals(id, skill.id) && Objects.equals(title, skill.title) && status == skill.status && Objects.equals(description, skill.description) && Objects.equals(source, skill.source) && Objects.equals(dateAdded, skill.dateAdded) && Objects.equals(updatedAt, skill.updatedAt) && Objects.equals(completedAt, skill.completedAt) && Objects.equals(tag, skill.tag) && Objects.equals(user, skill.user);
+        return Objects.equals(id, skill.id) && Objects.equals(title, skill.title) && status == skill.status && Objects.equals(description, skill.description) && Objects.equals(source, skill.source) && Objects.equals(dateAdded, skill.dateAdded) && Objects.equals(updatedAt, skill.updatedAt) && Objects.equals(completedAt, skill.completedAt) && Objects.equals(tag, skill.tag);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, status, description, source, dateAdded, updatedAt, completedAt, tag, user);
+        return Objects.hash(id, title, status, description, source, dateAdded, updatedAt, completedAt, tag);
     }
 
     @Override

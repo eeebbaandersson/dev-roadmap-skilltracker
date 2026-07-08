@@ -32,6 +32,5 @@ public class UserMapper {
     public void updateEntityFromDTO(UpdateUserDTO dto, User user) {
         user.setFullName(dto.fullName());
         user.setUsername(dto.username());
-        user.setPassword(dto.password());
     }
 }
