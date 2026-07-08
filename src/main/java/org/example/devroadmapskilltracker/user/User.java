@@ -15,12 +15,9 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "A name is required")
-    private String fullName;
+    @NotBlank(message = "A name is required") private String fullName;
 
-    @NotBlank(message = "A username is required")
-    @Column(unique = true, nullable = false)
+    @NotBlank(message = "A username is required") @Column(unique = true, nullable = false)
     private String username;
-    @NotBlank(message = "A password is required")
-    private String password;
+    @NotBlank(message = "A password is required") private String password;
 }
