@@ -53,7 +53,7 @@ header {
     margin-bottom: 30px;
 }
 
-header p { color: var(--color-text-dim); font-size: 14px; margin-top: -5px; }
+header p { color: var(--color-text-dim); font-size: 14px; margin-top: -10px; }
 
 .form-group { margin-bottom: 25px; }
 

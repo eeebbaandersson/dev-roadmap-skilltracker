@@ -27,10 +27,10 @@ public class DataInitializer {
 
     @Bean
     @Profile("!prod")
-    CommandLineRunner initDatabase(SkillRepository repository, UserRepository userRepository) {
+    CommandLineRunner initDatabase(SkillRepository skillRepository, UserRepository userRepository) {
         return args -> {
 
-            if (repository.count() == 0) {
+            if (userRepository.count() == 0) {
                 logger.info("No skill found. Generating test user and skills...");
 
                 User testUser = new User();
@@ -40,7 +40,7 @@ public class DataInitializer {
 
                 User savedUser = userRepository.save(testUser);
 
-                repository.saveAll(List.of(
+                skillRepository.saveAll(List.of(
                         // BACKLOG
                         new Skill("Docker", "Learn containerization and how to manage images.","DevOps", SkillStatus.BACKLOG, savedUser),
                         new Skill("TypeScript", "Strongly typed JavaScript for better scaling.","Frontend", SkillStatus.BACKLOG,savedUser),
