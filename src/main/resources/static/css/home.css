@@ -20,7 +20,6 @@ body {
     z-index: 100;
 }
 
-
 .nav-link, .logout-form button {
     background-color: rgba(10, 20, 25, 0.8) !important;
     backdrop-filter: blur(10px);
@@ -51,7 +50,6 @@ body {
     text-shadow: 0 0 8px rgba(96, 214, 250, 0.6);
     opacity: 0.9;
 }
-
 
 header {
     display: flex;
@@ -168,6 +166,7 @@ header h1 {
     display: inline-flex;
     justify-content: center;
     align-items: center;
+    position: relative;
     gap: 8px;
     background-color: rgba(10, 20, 25, 0.8) !important;
     backdrop-filter: blur(10px);
@@ -190,9 +189,32 @@ header h1 {
     opacity: 1;
 }
 
+.btn-add-skill::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: -36px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #0d161a;
+    color: #7ee7ff;
+    border: 1px solid rgba(126, 231, 255, 0.35);
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.btn-add-skill:hover::after {
+    opacity: 1;
+}
+
 .roadmap-container {
     display: grid;
-    grid-template-columns: repeat(3, minmax(250px, 350px)); /* Skapar 3 kolumner */
+    grid-template-columns: repeat(3, minmax(250px, 350px));
     gap: 1.5rem;
     align-items: start;
     max-width: 1000px;

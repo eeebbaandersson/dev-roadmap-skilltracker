@@ -23,7 +23,7 @@
 
 <header>
     <h1 class="title-with-icon">
-        <span class="header-rocket-icon"></span>
+<!--        <span class="header-rocket-icon"></span>-->
         The Dev RoadMap
     </h1>
 
@@ -35,8 +35,8 @@
             <input type="text" name="title" th:value="${titleFilter}" placeholder="Filter skills by title or tag...">
         </form>
 
-        <a th:href="@{/skills/new}" class="btn-add-skill">
-            <span>+</span>Add New Skill
+        <a th:href="@{/skills/new}" class="btn-add-skill" data-tooltip="Add new skill" aria-label="Add new skill">
+            <span>+</span>
         </a>
     </div>
 
@@ -65,7 +65,7 @@
             </th:block>
 
             <p th:if="${#lists.isEmpty(inProgressSkills)}" class="default-message">
-                Currently not focusing on any specific skill. Time to pick one?
+                Not focusing on any specific skill right now. Time to pick one?
             </p>
         </div>
     </section>
