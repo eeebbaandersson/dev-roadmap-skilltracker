@@ -161,21 +161,6 @@ header p { color: var(--color-text-dim); font-size: 14px; margin-top: -15px; }
     text-decoration: underline;
 }
 
-.rocket-icon {
-    display: block;
-    width: 30px;
-    height: 30px;
-    margin: 25px auto 0 auto;
-    background-color: var(--accent-color);
-    opacity: 0.9;
-    mask: url('../assets/rocket-icon.svg') no-repeat center;
-    -webkit-mask: url('../assets/rocket-icon.svg') no-repeat center;
-    mask-size: contain;
-    filter: none;
-    pointer-events: none;
-    z-index: 2;
-}
-
 .btn-submit.btn-delete-action {
     background: rgba(229, 115, 115, 0.05);
     color: rgba(229, 115, 115, 0.6);
