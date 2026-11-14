@@ -13,13 +13,13 @@ Starting somewhere can feel like conquering a mountain - and once you do, how do
 **The Dev RoadMap** is my take on solving this. Originally a school assignment,
 this project is inspired by the structure of Kanban boards and tools like Trello, designed specifically for the developer's learning journey.
 
-⚠️ **Note –** This project is currently a Work in Progress as I continue to refine features and the UI.
+⚠️ **Note –** Designed specifically for desktop browsers. This project is currently a Work in Progress as I continue to refine features and the UI.
 
 ---
 
 ## ✨ Key Features
 * **Visual Kanban Workflow –** Organize your learning in BACKLOG, IN PROGRESS, and MASTERED.
-* **Identity & Account Management (New!) –** Secure user registration, authentication, and personalized profile management.
+* **Identity & Account Management –** Secure user registration, authentication, and personalized profile management.
 * **Intuitive Skill Tracking –** Easily add new topics and document your journey towards mastery.
 * **Smart Filtering & Pagination –** Quickly find what you need with real-time filtering and dynamic "Load More" functionality.
 * **Resource Management –** Keep essential documentation, source links and notes attached to every skill for quick reference.
