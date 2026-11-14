@@ -28,7 +28,7 @@
             </div>
 
             <div class="form-row">
-                <label for="source">Resources</label>
+                <label for="source">Resource</label>
                 <div class="input-container">
                     <input type="url" id="source" th:field="*{source}" placeholder="https://...">
                     <span class="error-text" th:if="${#fields.hasErrors('source')}" th:errors="*{source}"></span>
@@ -55,7 +55,7 @@
             </div>
 
                 <div class="form-row">
-                    <label for="tag">Tags</label>
+                    <label for="tag">Tag</label>
                     <div class="input-container">
                         <input type="text" id="tag" th:field="*{tag}" placeholder="e.g. Backend"
                                th:classappend="${#fields.hasErrors('tag')} ? 'is-invalid' : ''">

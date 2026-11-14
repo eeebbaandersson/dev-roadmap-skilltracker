@@ -13,32 +13,32 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    padding: 2rem;
+    padding: 1.5rem;
+    box-sizing: border-box;
 }
-
 
 .form-card {
     background: rgba(10, 20, 25, 0.8);
     border: 1px solid rgba(96, 214, 250, 0.2);
     border-radius: 28px;
-    padding: 2.5rem;
-    max-width: 550px;
+    padding: 1.75rem 2.25rem;
+    max-width: 520px;
     width: 100%;
-    margin-top: -50px;
+    margin-top: 0;
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(12px);
 }
 
 .form-header {
     text-align: center;
-    margin-bottom: 3rem;
+    margin-bottom: 2rem;
     width: 100%;
     color: #e6f7ff;
 }
 
 .form-header h1 {
-    font-size: 2.2rem;
-    margin: 0 0 0.5rem 0;
+    font-size: 1.9rem;
+    margin: 0 0 0.35rem 0;
     letter-spacing: 0.01em;
     font-weight: 700;
     color: #e6f7ff;
@@ -57,20 +57,22 @@ form {
 }
 
 .form-row {
-    display: grid;
-    grid-template-columns: 80px 350px;
-    align-items: center;
-    gap: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
     width: 100%;
     max-width: 450px;
-    margin-bottom: 1.2rem;
+    margin-bottom: 1rem;
 }
 
 label {
-    color: rgba(96, 214, 250, 0.5);
-    font-size: 1rem;
+    color: rgba(96, 214, 250, 0.8);
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
     text-align: left;
-    padding-top: 0;
 }
 
 .input-container {
@@ -89,8 +91,7 @@ input, select, textarea {
     -webkit-appearance: none;
     appearance: none;
     box-sizing: border-box;
-
-
+    margin-bottom: 0.25rem;
 }
 
 textarea {
@@ -143,7 +144,7 @@ input:focus, select:focus, textarea:focus {
     gap: 0.75rem;
     margin-top: 2rem;
     width: 100%;
-    max-width: 470px;
+    max-width: 450px;
     margin-left: auto;
     margin-right: auto;
     box-sizing: border-box;
